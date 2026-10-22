@@ -41,7 +41,7 @@
   },
   "raw_source_files_kept_local": true,
   "public_code_sharing_rule": "Foundational Rules 6(b): public competition code must also be shared in the competition Kaggle forum or notebooks and use an OSI-approved license without commercial-use restrictions.",
-  "kaggle_code_publication_status": "User authorized MIT and Kaggle source-link publication. MIT applied; Kaggle post not yet verified.",
+  "kaggle_code_publication_status": "MIT applied; authorized source-link topic published and verified on Kaggle 2026-10-22.",
   "official_faq": {
     "url": "https://www.kaggle.com/competitions/rmit-hackathon-2026/discussion/748423",
     "content_sha256_utf8": "ef8c1c42bfbfeb8d1a99fc1abed200a2f8fa79e9cc8d04b32b76fb0c51c9ecb5",
@@ -55,7 +55,8 @@
       "answers_retrieved": true,
       "answer_id": 3542538,
       "answer_posted_utc": "2026-10-22T03:52:31.457Z",
-      "answer_sha256_utf8": "1ca1a290e365a25dc7823538a096e1405e4b4385d7b77245f80daa21bd93d9fe"
+      "answer_sha256_utf8": "1ca1a290e365a25dc7823538a096e1405e4b4385d7b77245f80daa21bd93d9fe",
+      "answer_author_verified_in_browser": "Cyrus Gao"
     },
     {
       "id": 751570,
@@ -64,7 +65,8 @@
       "answers_retrieved": true,
       "answer_id": 3542539,
       "answer_posted_utc": "2026-10-22T03:55:23.603Z",
-      "answer_sha256_utf8": "00999c8729f1d5ba9055a23d8de5281138b19e39b5e2bc35d090d2f1f66b0c89"
+      "answer_sha256_utf8": "00999c8729f1d5ba9055a23d8de5281138b19e39b5e2bc35d090d2f1f66b0c89",
+      "answer_author_verified_in_browser": "Cyrus Gao"
     },
     {
       "id": 751566,
@@ -73,7 +75,8 @@
       "answers_retrieved": true,
       "answer_id": 3542536,
       "answer_posted_utc": "2026-10-22T03:49:47.670Z",
-      "answer_sha256_utf8": "d006deed6ac8dc400750a8256b006bea3847e3dc50b7e4a6e739c2007d42ff6e"
+      "answer_sha256_utf8": "d006deed6ac8dc400750a8256b006bea3847e3dc50b7e4a6e739c2007d42ff6e",
+      "answer_author_verified_in_browser": "Cyrus Gao"
     }
   ],
   "discussion_answer_access": "Answers retrieved successfully via official CompetitionApiService.ListTopicMessages; previous empty generic-comment responses were superseded.",
@@ -83,5 +86,6 @@
   "external_training_data_allowed": false,
   "synthetic_training_data_allowed": false,
   "local_runs_status": "Stopped and archived as ineligible after organizer answers were retrieved. Never reused as competition initialization, selection evidence or predictions.",
-  "code_license": "MIT for first-party code; user explicitly authorized 2026-10-22"
+  "code_license": "MIT for first-party code; user explicitly authorized 2026-10-22",
+  "kaggle_public_code_topic_url": "https://www.kaggle.com/competitions/rmit-hackathon-2026/discussion/751585"
 }

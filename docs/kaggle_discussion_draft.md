@@ -9,3 +9,5 @@ The official entry notebook selects FacebookAI/xlm-roberta-base from the approve
 The first-party source code is licensed under MIT. Competition data and pretrained model weights retain their original licenses; see the repository license scope.
 
 This post shares the public source link with competition participants for Foundational Rules section 6(b). It contains no raw prompts, ID-level predictions, checkpoint files, or private notebook execution links. Posting this link does not submit a prediction CSV.
+
+Publication verified: https://www.kaggle.com/competitions/rmit-hackathon-2026/discussion/751585

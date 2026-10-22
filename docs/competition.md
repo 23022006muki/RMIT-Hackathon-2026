@@ -22,7 +22,7 @@ On **2026-10-22**, the official Kaggle SDK successfully read `CompetitionApiServ
 | No manually labeling validation/test records for submissions | Foundational Rules 4(b) | Original train labels retained; no manual prediction overrides or test relabeling |
 | One account per person and one team | Foundational Rules 5 | No proxy account or attempt-limit workarounds |
 | No private code/data sharing outside the team | Foundational Rules 5(d), 6(a) | Do not privately transfer competition code/data to another team |
-| Public code must also be shared on the competition's Kaggle forum or notebooks, with an OSI-approved license permitting commercial use | Foundational Rules 6(b), 6(c) | GitHub repo verified public. User authorized MIT and the Kaggle source-link post. MIT is applied; post verification remains pending; see [draft](kaggle_discussion_draft.md). No full-compliance claim while this action is pending |
+| Public code must also be shared on the competition's Kaggle forum or notebooks, with an OSI-approved license permitting commercial use | Foundational Rules 6(b), 6(c) | GitHub repo verified public. User authorized MIT and the Kaggle source-link post. MIT is applied and [public source-link topic](https://www.kaggle.com/competitions/rmit-hackathon-2026/discussion/751585) was published and verified. |
 | Hidden private leaderboard determines final Kaggle ranking | Foundational Rules 7 | Choose using validation; public leaderboard is not a training target. Exact public/private proportions remain unknown |
 | Dataset license | API and Data metadata | CC BY-NC-SA 4.0; applies to data, not automatically to the team's source code |
 
@@ -32,7 +32,7 @@ Foundational Rules state that they control a conflict with competition-specific 
 
 The user authorized GitHub publication. An automatic approval review separately required specific permission for exporting ID-level competition artifacts. Source and aggregate metrics are published; raw CSVs, splits, near-duplicate ID pairs, validation predictions, final prediction CSVs and checkpoints remain local pending the relevant authorization. Do not interpret this local file policy as proof that the competition allows public redistribution of its data.
 
-The draft Kaggle post only shares the already-public GitHub source link. Posting it does not submit a prediction CSV. The user explicitly authorized MIT for first-party code and the Kaggle source-link post. MIT has been applied; post verification remains pending. No public notebook release, rule acceptance or competition CSV submission has been performed by this project.
+The published Kaggle post shares the already-public GitHub source link and describes the XLM-RoBERTa pipeline. Posting it did not submit a prediction CSV. The user explicitly authorized MIT for first-party code and the Kaggle source-link post. MIT has been applied; the [public source-link topic](https://www.kaggle.com/competitions/rmit-hackathon-2026/discussion/751585) was published and verified. No public notebook release, rule acceptance or competition CSV submission has been performed by this project.
 
 ## Verified organizer clarifications
 
