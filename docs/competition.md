@@ -15,10 +15,10 @@ On **2026-10-22**, the official Kaggle SDK successfully read `CompetitionApiServ
 | Naming `<university>_<campus>_<team>_C1` | Overview abstract | UEL_SGS_LucViHoangDe_C1; unaccented team identifier |
 | 6,000 rows, exact id,label columns and allowed labels | Evaluation page | Strict validator; sample-submission order retained |
 | Submission deadline | GetCompetition API | **2026-10-22 18:00 Asia/Saigon** = 11:00 UTC; check for changes before submission |
-| Submission allowance | API: six daily; Challenge text: six attempts | Conservative project budget of six; project has made zero submissions; actual account allowance not inspected |
+| Submission allowance | API: six daily; Challenge text: six attempts | One user-authorized CSV submission completed successfully; public macro F1 0.94224. See `artifacts/submission_status.json`. The account allowance was six before that upload. |
 | Maximum team size | GetCompetition API | Four; participant must confirm their real Kaggle team membership |
 | First valid submission earns full Challenge 1 marks | Challenge page | Does not establish a high leaderboard score or overall hackathon weight |
-| Submit notebook for higher score | Competition-specific Rules page | Exact custom instruction: “Submit notebooks to get higher score.” Named notebook is prepared; publication/submission requires participant action or authorization |
+| Submit notebook for higher score | Competition-specific Rules page | Exact custom instruction: “Submit notebooks to get higher score.” The named notebook was executed privately on Kaggle and remains available for organizer review. |
 | No manually labeling validation/test records for submissions | Foundational Rules 4(b) | Original train labels retained; no manual prediction overrides or test relabeling |
 | One account per person and one team | Foundational Rules 5 | No proxy account or attempt-limit workarounds |
 | No private code/data sharing outside the team | Foundational Rules 5(d), 6(a) | Do not privately transfer competition code/data to another team |
@@ -26,13 +26,13 @@ On **2026-10-22**, the official Kaggle SDK successfully read `CompetitionApiServ
 | Hidden private leaderboard determines final Kaggle ranking | Foundational Rules 7 | Choose using validation; public leaderboard is not a training target. Exact public/private proportions remain unknown |
 | Dataset license | API and Data metadata | CC BY-NC-SA 4.0; applies to data, not automatically to the team's source code |
 
-Foundational Rules state that they control a conflict with competition-specific terms. No 2025 rule or weight is assumed. The current pages do not establish total RMIT hackathon challenge weights or the account's remaining submission count.
+Foundational Rules state that they control a conflict with competition-specific terms. No 2025 rule or weight is assumed. The current pages do not establish total RMIT hackathon challenge weights. The account had six submissions available before the one completed upload; the current remaining count has not been rechecked.
 
 ## Public sharing and local artifacts
 
 The user authorized GitHub publication. An automatic approval review separately required specific permission for exporting ID-level competition artifacts. Source and aggregate metrics are published; raw CSVs, splits, near-duplicate ID pairs, validation predictions, final prediction CSVs and checkpoints remain local pending the relevant authorization. Do not interpret this local file policy as proof that the competition allows public redistribution of its data.
 
-The published Kaggle post shares the already-public GitHub source link and describes the XLM-RoBERTa pipeline. Posting it did not submit a prediction CSV. The user explicitly authorized MIT for first-party code and the Kaggle source-link post. MIT has been applied; the [public source-link topic](https://www.kaggle.com/competitions/rmit-hackathon-2026/discussion/751585) was published and verified. No public notebook release, rule acceptance or competition CSV submission has been performed by this project.
+The published Kaggle post shares the already-public GitHub source link and describes the XLM-RoBERTa pipeline. The user explicitly authorized MIT for first-party code and the Kaggle source-link post. MIT has been applied and the [public source-link topic](https://www.kaggle.com/competitions/rmit-hackathon-2026/discussion/751585) was verified. The notebook remains private. One separate, user-authorized CSV submission succeeded with a public macro F1 of 0.94224; its predictions were fixed before that score was observed.
 
 ## Verified organizer clarifications
 
