@@ -28,3 +28,7 @@ artifacts/**/submission.csv
 artifacts/*.log
 artifacts/local_progress.json
 artifacts/kaggle_execution.json
+
+artifacts/kaggle_downloads/
+
+artifacts/kaggle_audit/

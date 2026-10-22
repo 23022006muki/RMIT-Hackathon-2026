@@ -35,11 +35,11 @@ def main():
         rows.append(row)
         sources.append((path, metric, run))
     if not rows:
-        message = """# Kaggle execution pending
+        message = """# Kaggle outputs pending
 
 Team: UEL / SGS / Lục Vị Hoàng Đế. Notebook: UEL_SGS_LucViHoangDe_C1.
 
-There are no completed Kaggle training runs or final predictions yet. No eligible validation score or leaderboard score is claimed.
+Completed Kaggle output files have not been imported into this local report yet. No eligible validation score or leaderboard score is claimed in this report.
 
 Organizer clarifications require all training inside Kaggle, exactly one approved model, no ensembles (including versions of the same model), and no external or synthetic training data. The official entry uses FacebookAI/xlm-roberta-base from the approved Kaggle source. See [verified requirements](../docs/competition.md).
 
@@ -48,7 +48,7 @@ Earlier local experiments were stopped after these clarifications were retrieved
 Next: execute the full private Kaggle notebook, download actual checkpoints and predictions, then regenerate this report and validate the 6,000-row CSV. Competition submissions made by this project: **0**.
 """
         (reports / "RESULTS.md").write_text(message, encoding="utf-8")
-        (reports / "results.html").write_text('<!doctype html><html lang="en"><meta charset="utf-8"><title>Kaggle execution pending</title><style>body{font:17px system-ui;max-width:950px;margin:40px auto;padding:20px}pre{white-space:pre-wrap}</style><pre>' + html.escape(message) + '</pre></html>', encoding="utf-8")
+        (reports / "results.html").write_text('<!doctype html><html lang="en"><meta charset="utf-8"><title>Kaggle outputs pending</title><style>body{font:17px system-ui;max-width:950px;margin:40px auto;padding:20px}pre{white-space:pre-wrap}</style><pre>' + html.escape(message) + '</pre></html>', encoding="utf-8")
         pd.DataFrame(columns=["run", "model", "macro_f1"]).to_csv(reports / "experiments.csv", index=False)
         for name in ("validation.png", "class_metrics.csv", "length_buckets.csv"):
             (reports / name).unlink(missing_ok=True)

@@ -1,8 +1,8 @@
-# Kaggle execution pending
+# Kaggle outputs pending
 
 Team: UEL / SGS / Lục Vị Hoàng Đế. Notebook: UEL_SGS_LucViHoangDe_C1.
 
-There are no completed Kaggle training runs or final predictions yet. No eligible validation score or leaderboard score is claimed.
+Completed Kaggle output files have not been imported into this local report yet. No eligible validation score or leaderboard score is claimed in this report.
 
 Organizer clarifications require all training inside Kaggle, exactly one approved model, no ensembles (including versions of the same model), and no external or synthetic training data. The official entry uses FacebookAI/xlm-roberta-base from the approved Kaggle source. See [verified requirements](../docs/competition.md).
 

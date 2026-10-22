@@ -23,6 +23,13 @@ def main():
     origin = json.loads((final / "run.json").read_text(encoding="utf-8"))
     if origin.get("execution", {}).get("platform") != "kaggle" or "total_seconds" not in origin:
         raise RuntimeError("Final checkpoint must come from a completed Kaggle training run")
+    checkpoint = final / "checkpoint"
+    for name in ("model.safetensors", "config.json", "protector_config.json", "training_origin.json", "tokenizer_config.json"):
+        if not (checkpoint / name).is_file():
+            raise RuntimeError(f"Download the complete final Kaggle checkpoint before packaging: missing {name}")
+    checkpoint_origin = json.loads((checkpoint / "training_origin.json").read_text(encoding="utf-8"))
+    if checkpoint_origin.get("platform") != "kaggle":
+        raise RuntimeError("Final checkpoint origin is not Kaggle")
     result = validate_submission(final / "submission.csv", ROOT / args.data)
     output = (ROOT / args.output).resolve()
     output.mkdir(parents=True, exist_ok=True)
@@ -41,6 +48,7 @@ def main():
                 "local_repository": str(ROOT), "data_directory": str((ROOT / args.data).resolve()),
                 "final_checkpoint": str((final / "checkpoint").resolve()),
                 "pretrained_model_cache": str((ROOT.parent / "cache/kagglehub").resolve()),
+                "final_checkpoint_files": {p.name: {"sha256": sha256(p), "bytes": p.stat().st_size} for p in checkpoint.iterdir() if p.is_file()},
                 "submission": result,
                 "bundle_files": {name: {"sha256": sha256(output / name), "bytes": (output / name).stat().st_size} for name in copies}}
     write_json(output / "manifest.json", manifest)
