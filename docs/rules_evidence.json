@@ -41,7 +41,7 @@
   },
   "raw_source_files_kept_local": true,
   "public_code_sharing_rule": "Foundational Rules 6(b): public competition code must also be shared in the competition Kaggle forum or notebooks and use an OSI-approved license without commercial-use restrictions.",
-  "kaggle_code_publication_status": "Pending user authorization; GitHub repository verified public. No Kaggle post or notebook publication made by this project.",
+  "kaggle_code_publication_status": "User authorized MIT and Kaggle source-link publication. MIT applied; Kaggle post not yet verified.",
   "official_faq": {
     "url": "https://www.kaggle.com/competitions/rmit-hackathon-2026/discussion/748423",
     "content_sha256_utf8": "ef8c1c42bfbfeb8d1a99fc1abed200a2f8fa79e9cc8d04b32b76fb0c51c9ecb5",
@@ -82,5 +82,6 @@
   "ensemble_allowed": false,
   "external_training_data_allowed": false,
   "synthetic_training_data_allowed": false,
-  "local_runs_status": "Stopped and archived as ineligible after organizer answers were retrieved. Never reused as competition initialization, selection evidence or predictions."
+  "local_runs_status": "Stopped and archived as ineligible after organizer answers were retrieved. Never reused as competition initialization, selection evidence or predictions.",
+  "code_license": "MIT for first-party code; user explicitly authorized 2026-10-22"
 }
