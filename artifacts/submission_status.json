@@ -1,0 +1,12 @@
+{
+  "status": "complete",
+  "public_score": 0.94224,
+  "metric": "macro_f1",
+  "submission_attempts_by_project": 1,
+  "csv_rows": 6000,
+  "csv_sha256": "95e0c3e44e8be2ae5f220e716b1ce58999a44ee3c86fc0e0420dfa87aca56124",
+  "verified_date": "2026-10-22",
+  "verification": "Kaggle Submissions UI displayed Success / Complete and public score",
+  "private_score": null,
+  "note": "User explicitly authorized this single upload. Public leaderboard score was observed only after the final model and predictions were fixed; no leaderboard-driven tuning."
+}

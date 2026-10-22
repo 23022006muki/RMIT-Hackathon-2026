@@ -1,0 +1,17 @@
+{
+  "verified": true,
+  "texts_compared": 20000,
+  "identical_token_sequences": 20000,
+  "backend_components_equal": {
+    "model": true,
+    "normalizer": true,
+    "pre_tokenizer": true,
+    "post_processor": true,
+    "decoder": true,
+    "added_tokens": true
+  },
+  "transformers_version": "4.57.6",
+  "method": "Local tokenization comparison only; no model inference or training. Original approved tokenizer vs downloaded final Kaggle tokenizer.",
+  "warning": "The Mistral regex warning is a known false positive for local XLMRobertaTokenizerFast in Transformers 4.57.x. fix_mistral_regex=True was not used.",
+  "primary_source": "https://github.com/huggingface/transformers/issues/42591"
+}

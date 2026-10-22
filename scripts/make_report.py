@@ -17,6 +17,9 @@ from protector.constants import LABELS
 
 
 def main():
+    submission_path = ROOT / "artifacts/submission_status.json"
+    submission = json.loads(submission_path.read_text(encoding="utf-8")) if submission_path.exists() else {}
+    submission_summary = f"Kaggle submissions used: {submission.get('submission_attempts_by_project', 0)}. Status: {submission.get('status', 'not submitted')}. Public score: {submission.get('public_score', 'unknown')}. Private leaderboard score is unknown."
     reports = ROOT / "reports"
     reports.mkdir(exist_ok=True)
     rows = []
@@ -37,7 +40,7 @@ def main():
     if not rows:
         message = """# Kaggle outputs pending
 
-Team: UEL / SGS / Lục Vị Hoàng Đế. Notebook: UEL_SGS_LucViHoangDe_C1.
+Report: RMIT / SGS / Lục Vị Hoàng Đế. Executed notebook name at submission: UEL_SGS_LucViHoangDe_C1.
 
 Completed Kaggle output files have not been imported into this local report yet. No eligible validation score or leaderboard score is claimed in this report.
 
@@ -104,13 +107,19 @@ Next: execute the full private Kaggle notebook, download actual checkpoints and 
     final = json.loads(final_path.read_text(encoding="utf-8")) if final_path.exists() else None
     if final and final.get("execution", {}).get("platform") != "kaggle":
         raise ValueError("Final predictions do not have Kaggle execution provenance")
-    final_status = "The final model was retrained on all 14,000 rows. Its hidden-test performance is unknown; reported validation scores belong to selection models." if final else "Final full-data retraining and submission generation have not completed yet."
+    final_display = dict(final) if final else None
+    if final_display:
+        final_display.pop("kaggle_submissions_used_by_this_project", None)
+    tokenizer_path = ROOT / "artifacts/tokenizer_verification.json"
+    tokenizer_check = json.loads(tokenizer_path.read_text(encoding="utf-8")) if tokenizer_path.exists() else None
+    tokenizer_text = (f"Original approved and final-checkpoint tokenizers matched on {tokenizer_check['identical_token_sequences']}/{tokenizer_check['texts_compared']} supplied texts; all backend components matched. This was a local tokenizer-only check, not model inference or training. See [upstream warning issue]({tokenizer_check['primary_source']})." if tokenizer_check and tokenizer_check.get("verified") else "Tokenizer consistency has not yet been verified.")
+    final_status = "The final model was retrained on all 14,000 rows. Its final private leaderboard performance is unknown; reported validation scores belong to selection models. The public leaderboard result is recorded separately below." if final else "Final full-data retraining and submission generation have not completed yet."
     table_text = table.to_csv(index=False, float_format="%.6f", lineterminator="\n")
     class_csv = classes.to_csv(index=False, float_format="%.6f", lineterminator="\n")
     length_csv = lengths.to_csv(index=False, float_format="%.6f", lineterminator="\n")
-    body = f"""# Actual experiment results
+    body = f"""# RMIT_SGS_LucViHoangDe_C1 — Actual experiment results
 
-Team: UEL / SGS / Lục Vị Hoàng Đế. Notebook: UEL_SGS_LucViHoangDe_C1.
+Report: RMIT / SGS / Lục Vị Hoàng Đế. Executed notebook name at submission: UEL_SGS_LucViHoangDe_C1.
 
 The following numbers come from completed Kaggle training runs. They are validation measurements, not leaderboard scores. Ineligible local experiments are excluded and preserved in reports/local_only.
 
@@ -141,16 +150,22 @@ Length-bucket F1 uses all three labels even when a small bucket has no examples 
 
 Validation rows: {run['validation_rows']}. Train rows for selection: {run['train_rows']}. Approximate near duplicates are grouped before splitting. Per-language scores can be noisy for the rare class; small gains need a second seed/split check.
 
-Final submission validation: {json.dumps(final, ensure_ascii=False) if final else 'Not generated yet.'}
+Final submission validation: {json.dumps(final_display, ensure_ascii=False) if final else 'Not generated yet.'}
 
-{final_status} Competition submissions made by this project: **0**.
+Tokenizer consistency: {tokenizer_text}
+
+{final_status}
+
+{submission_summary}
 
 {rules_status} See [requirements evidence](../docs/competition.md).
 """
     (reports / "RESULTS.md").write_text(body, encoding="utf-8")
+    (reports / "RMIT_SGS_LucViHoangDe_C1.md").write_text(body, encoding="utf-8")
     image = base64.b64encode(chart.read_bytes()).decode()
-    html_body = f"""<!doctype html><html lang="vi"><meta charset="utf-8"><title>UEL SGS — Results</title><style>body{{font:16px system-ui,sans-serif;max-width:1100px;margin:40px auto;padding:0 24px;color:#17212b}}table{{border-collapse:collapse;width:100%;font-size:13px}}th,td{{padding:9px;border-bottom:1px solid #ddd;text-align:left}}img{{max-width:100%}}pre{{white-space:pre-wrap;background:#f3f6f8;padding:18px}}h1{{color:#175c73}}</style><h1>UEL_SGS_LucViHoangDe_C1</h1><p>Completed Kaggle validation runs. Ineligible local archives are excluded. These are not leaderboard scores.</p>{table.to_html(index=False,float_format=lambda x:f'{x:.6f}',border=0)}<img src="data:image/png;base64,{image}" alt="Validation confusion matrix and language metrics"><h2>Per-class metrics</h2>{classes.to_html(index=False,border=0,float_format=lambda x:f'{x:.6f}')}<p>Remaining confusions: {html.escape(error_text)}</p><h2>Length diagnostics</h2>{lengths.to_html(index=False,border=0,float_format=lambda x:f'{x:.6f}')}<p>Bucket F1 includes all three labels; rare/absent labels can make small buckets unstable.</p><h2>Inference truncation ablation</h2>{ablation_html}<h2>Submission checks</h2><pre>{html.escape(json.dumps(final,ensure_ascii=False,indent=2)) if final else 'Not generated yet'}</pre><p>{html.escape(final_status)} No Kaggle submission has been made.</p><h2>Rules and publication</h2><p>{html.escape(rules_status)}</p></html>"""
+    html_body = f"""<!doctype html><html lang="vi"><meta charset="utf-8"><title>RMIT SGS — Results</title><style>body{{font:16px system-ui,sans-serif;max-width:1100px;margin:40px auto;padding:0 24px;color:#17212b}}table{{border-collapse:collapse;width:100%;font-size:13px}}th,td{{padding:9px;border-bottom:1px solid #ddd;text-align:left}}img{{max-width:100%}}pre{{white-space:pre-wrap;background:#f3f6f8;padding:18px}}h1{{color:#175c73}}</style><h1>RMIT_SGS_LucViHoangDe_C1</h1><p>Report school: RMIT. Executed notebook: UEL_SGS_LucViHoangDe_C1.</p><p>Completed Kaggle validation runs. Ineligible local archives are excluded. These are not leaderboard scores.</p>{table.to_html(index=False,float_format=lambda x:f'{x:.6f}',border=0)}<img src="data:image/png;base64,{image}" alt="Validation confusion matrix and language metrics"><h2>Per-class metrics</h2>{classes.to_html(index=False,border=0,float_format=lambda x:f'{x:.6f}')}<p>Remaining confusions: {html.escape(error_text)}</p><h2>Length diagnostics</h2>{lengths.to_html(index=False,border=0,float_format=lambda x:f'{x:.6f}')}<p>Bucket F1 includes all three labels; rare/absent labels can make small buckets unstable.</p><h2>Inference truncation ablation</h2>{ablation_html}<h2>Submission checks</h2><pre>{html.escape(json.dumps(final_display,ensure_ascii=False,indent=2)) if final else 'Not generated yet'}</pre><p>{html.escape(final_status)} {html.escape(submission_summary)}</p><h2>Tokenizer verification</h2><p>{html.escape(tokenizer_text)}</p><h2>Rules and publication</h2><p>{html.escape(rules_status)}</p></html>"""
     (reports / "results.html").write_text(html_body, encoding="utf-8")
+    (reports / "RMIT_SGS_LucViHoangDe_C1.html").write_text(html_body, encoding="utf-8")
     print(table.to_string(index=False))
     print(reports / "results.html")
 

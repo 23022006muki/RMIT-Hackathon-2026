@@ -1,0 +1,333 @@
+{
+  "experiment": "/kaggle/working/artifacts/kaggle_xlm_roberta_weighted",
+  "execution": {
+    "platform": "kaggle",
+    "is_kaggle": true,
+    "kernel_run_type": "Batch"
+  },
+  "trained_max_length": 256,
+  "validation_rows": 2790,
+  "split_sha256": "39f80834be83f20515faab4c6f41412b7d4ca33e36a7d6b191cab8f81e9f76d3",
+  "device": "cuda",
+  "conditions": [
+    {
+      "max_length": 256,
+      "truncation": "head_tail",
+      "macro_f1": 0.9365489314874957,
+      "truncated_rows": 312,
+      "seconds": 11.46,
+      "BENIGN": 0.9559965487489215,
+      "JAILBREAK": 0.9259694477085781,
+      "PROMPT_INJECTION": 0.9276807980049875,
+      "macro avg": 0.9365489314874957,
+      "weighted avg": 0.9448313068560366,
+      "metrics": {
+        "macro_f1": 0.9365489314874957,
+        "class_report": {
+          "BENIGN": {
+            "precision": 0.9573732718894009,
+            "recall": 0.9546237794371051,
+            "f1-score": 0.9559965487489215,
+            "support": 1741.0
+          },
+          "JAILBREAK": {
+            "precision": 0.9205607476635514,
+            "recall": 0.9314420803782506,
+            "f1-score": 0.9259694477085781,
+            "support": 846.0
+          },
+          "PROMPT_INJECTION": {
+            "precision": 0.9393939393939394,
+            "recall": 0.916256157635468,
+            "f1-score": 0.9276807980049875,
+            "support": 203.0
+          },
+          "accuracy": 0.9448028673835125,
+          "macro avg": {
+            "precision": 0.9391093196489639,
+            "recall": 0.9341073391502746,
+            "f1-score": 0.9365489314874957,
+            "support": 2790.0
+          },
+          "weighted avg": {
+            "precision": 0.9449025908888105,
+            "recall": 0.9448028673835125,
+            "f1-score": 0.9448313068560366,
+            "support": 2790.0
+          }
+        },
+        "confusion_matrix": [
+          [
+            1662,
+            67,
+            12
+          ],
+          [
+            58,
+            788,
+            0
+          ],
+          [
+            16,
+            1,
+            186
+          ]
+        ],
+        "confusion_matrix_labels": [
+          "BENIGN",
+          "JAILBREAK",
+          "PROMPT_INJECTION"
+        ],
+        "by_language": {
+          "pt": {
+            "n": 1281,
+            "macro_f1": 0.917021012569473
+          },
+          "fr": {
+            "n": 644,
+            "macro_f1": 0.9623133283090182
+          },
+          "it": {
+            "n": 574,
+            "macro_f1": 0.9516421195192145
+          },
+          "en": {
+            "n": 291,
+            "macro_f1": 0.9482023345791037
+          }
+        },
+        "by_length_characters": {
+          "0-299": {
+            "n": 1411,
+            "macro_f1": 0.956153345407472
+          },
+          "300-999": {
+            "n": 997,
+            "macro_f1": 0.9325997743852125
+          },
+          "1000-1999": {
+            "n": 299,
+            "macro_f1": 0.9227406483488538
+          },
+          "2000+": {
+            "n": 83,
+            "macro_f1": 0.9482323232323232
+          }
+        }
+      }
+    },
+    {
+      "max_length": 256,
+      "truncation": "head",
+      "macro_f1": 0.9353774317850855,
+      "truncated_rows": 312,
+      "seconds": 11.52,
+      "BENIGN": 0.9559965487489215,
+      "JAILBREAK": 0.9270588235294117,
+      "PROMPT_INJECTION": 0.9230769230769231,
+      "macro avg": 0.9353774317850855,
+      "weighted avg": 0.9448266564381254,
+      "metrics": {
+        "macro_f1": 0.9353774317850855,
+        "class_report": {
+          "BENIGN": {
+            "precision": 0.9573732718894009,
+            "recall": 0.9546237794371051,
+            "f1-score": 0.9559965487489215,
+            "support": 1741.0
+          },
+          "JAILBREAK": {
+            "precision": 0.9227166276346604,
+            "recall": 0.9314420803782506,
+            "f1-score": 0.9270588235294117,
+            "support": 846.0
+          },
+          "PROMPT_INJECTION": {
+            "precision": 0.93,
+            "recall": 0.916256157635468,
+            "f1-score": 0.9230769230769231,
+            "support": 203.0
+          },
+          "accuracy": 0.9448028673835125,
+          "macro avg": {
+            "precision": 0.9366966331746872,
+            "recall": 0.9341073391502746,
+            "f1-score": 0.9353774317850855,
+            "support": 2790.0
+          },
+          "weighted avg": {
+            "precision": 0.9448728076481611,
+            "recall": 0.9448028673835125,
+            "f1-score": 0.9448266564381254,
+            "support": 2790.0
+          }
+        },
+        "confusion_matrix": [
+          [
+            1662,
+            65,
+            14
+          ],
+          [
+            58,
+            788,
+            0
+          ],
+          [
+            16,
+            1,
+            186
+          ]
+        ],
+        "confusion_matrix_labels": [
+          "BENIGN",
+          "JAILBREAK",
+          "PROMPT_INJECTION"
+        ],
+        "by_language": {
+          "pt": {
+            "n": 1281,
+            "macro_f1": 0.9181890764398998
+          },
+          "fr": {
+            "n": 644,
+            "macro_f1": 0.9610365148781398
+          },
+          "it": {
+            "n": 574,
+            "macro_f1": 0.9530454926549766
+          },
+          "en": {
+            "n": 291,
+            "macro_f1": 0.9342740495394316
+          }
+        },
+        "by_length_characters": {
+          "0-299": {
+            "n": 1411,
+            "macro_f1": 0.956153345407472
+          },
+          "300-999": {
+            "n": 997,
+            "macro_f1": 0.9325997743852125
+          },
+          "1000-1999": {
+            "n": 299,
+            "macro_f1": 0.9272821396360872
+          },
+          "2000+": {
+            "n": 83,
+            "macro_f1": 0.7762820512820513
+          }
+        }
+      }
+    },
+    {
+      "max_length": 512,
+      "truncation": "head_tail",
+      "macro_f1": 0.9374739313374039,
+      "truncated_rows": 65,
+      "seconds": 15.18,
+      "BENIGN": 0.9567972350230415,
+      "JAILBREAK": 0.9279437609841827,
+      "PROMPT_INJECTION": 0.9276807980049875,
+      "macro avg": 0.9374739313374039,
+      "weighted avg": 0.9459296093056438,
+      "metrics": {
+        "macro_f1": 0.9374739313374039,
+        "class_report": {
+          "BENIGN": {
+            "precision": 0.9595609474292317,
+            "recall": 0.9540493968983343,
+            "f1-score": 0.9567972350230415,
+            "support": 1741.0
+          },
+          "JAILBREAK": {
+            "precision": 0.9198606271777003,
+            "recall": 0.9361702127659575,
+            "f1-score": 0.9279437609841827,
+            "support": 846.0
+          },
+          "PROMPT_INJECTION": {
+            "precision": 0.9393939393939394,
+            "recall": 0.916256157635468,
+            "f1-score": 0.9276807980049875,
+            "support": 203.0
+          },
+          "accuracy": 0.9458781362007168,
+          "macro avg": {
+            "precision": 0.9396051713336239,
+            "recall": 0.9354919224332532,
+            "f1-score": 0.9374739313374039,
+            "support": 2790.0
+          },
+          "weighted avg": {
+            "precision": 0.9460554371912532,
+            "recall": 0.9458781362007168,
+            "f1-score": 0.9459296093056438,
+            "support": 2790.0
+          }
+        },
+        "confusion_matrix": [
+          [
+            1661,
+            68,
+            12
+          ],
+          [
+            54,
+            792,
+            0
+          ],
+          [
+            16,
+            1,
+            186
+          ]
+        ],
+        "confusion_matrix_labels": [
+          "BENIGN",
+          "JAILBREAK",
+          "PROMPT_INJECTION"
+        ],
+        "by_language": {
+          "pt": {
+            "n": 1281,
+            "macro_f1": 0.9196913140968116
+          },
+          "fr": {
+            "n": 644,
+            "macro_f1": 0.9610365148781398
+          },
+          "it": {
+            "n": 574,
+            "macro_f1": 0.9516421195192145
+          },
+          "en": {
+            "n": 291,
+            "macro_f1": 0.9482023345791037
+          }
+        },
+        "by_length_characters": {
+          "0-299": {
+            "n": 1411,
+            "macro_f1": 0.956153345407472
+          },
+          "300-999": {
+            "n": 997,
+            "macro_f1": 0.9325997743852125
+          },
+          "1000-1999": {
+            "n": 299,
+            "macro_f1": 0.9299550746340756
+          },
+          "2000+": {
+            "n": 83,
+            "macro_f1": 0.95052790346908
+          }
+        }
+      }
+    }
+  ],
+  "caveat": "Inference-only diagnostics on one Kaggle checkpoint and the same validation split. Final training/inference retain the original configuration; this is not evidence for retraining at another length."
+}

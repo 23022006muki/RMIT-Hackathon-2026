@@ -1,0 +1,14 @@
+{
+  "method": "mean validation F1 across seeds 42 and 43; no ensembling",
+  "scores": [
+    [
+      0.9327650225249157,
+      "/kaggle/working/artifacts/kaggle_xlm_roberta_base"
+    ],
+    [
+      0.9344412929736612,
+      "/kaggle/working/artifacts/kaggle_xlm_roberta_weighted"
+    ]
+  ],
+  "selected_run": "/kaggle/working/artifacts/kaggle_xlm_roberta_weighted"
+}

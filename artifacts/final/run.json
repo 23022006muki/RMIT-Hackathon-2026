@@ -1,0 +1,54 @@
+{
+  "execution": {
+    "platform": "kaggle",
+    "is_kaggle": true,
+    "kernel_run_type": "Batch"
+  },
+  "config": {
+    "model_id": "FacebookAI/xlm-roberta-base",
+    "max_length": 256,
+    "truncation": "head_tail",
+    "epochs": 3,
+    "batch_size": 16,
+    "eval_batch_size": 32,
+    "accumulation_steps": 2,
+    "learning_rate": 2e-05,
+    "weight_decay": 0.01,
+    "warmup_ratio": 0.06,
+    "weight_power": 0.5,
+    "seed": 42,
+    "gradient_checkpointing": false,
+    "patience": 2,
+    "num_threads": 4,
+    "optimizer_foreach": false
+  },
+  "device": "cuda",
+  "torch": "2.11.0+cu128",
+  "gpu": "Tesla T4",
+  "train_rows": 14000,
+  "validation_rows": 0,
+  "train_truncated": 1549,
+  "validation_truncated": 0,
+  "class_weights": [
+    0.5565543852677711,
+    0.7870867598439025,
+    1.6563588548883261
+  ],
+  "provenance": {
+    "selected_experiment": "/kaggle/working/artifacts/kaggle_xlm_roberta_weighted",
+    "validation_macro_f1": 0.9365489314874957,
+    "final_epochs": 3,
+    "train_file_sha256": "b6809aea692dbbb4978f45fa603bb001e10ebfbffe9bfbff964e44e2856be795",
+    "pretrained_provenance": {
+      "model_id": "FacebookAI/xlm-roberta-base",
+      "model_source": "/kaggle/input/models/aisuko/xlm-roberta-base/transformers/default/1",
+      "config_file_sha256": "713f087457bd73d7eb15ca15d4d816b2deb0a2bb370d4b296d4cdc7e73f492cf",
+      "train_file_sha256": "b6809aea692dbbb4978f45fa603bb001e10ebfbffe9bfbff964e44e2856be795",
+      "split_sha256": "39f80834be83f20515faab4c6f41412b7d4ca33e36a7d6b191cab8f81e9f76d3"
+    },
+    "note": "Final model trained from approved pretrained initialization on all 14,000 train rows. Reported validation metric belongs to the selection model, not this full-data model."
+  },
+  "pretrained_config_sha256": "d66ed8cd4f2a93b358c245e50736fa389ed4f35c0bae7aad0b32abb20c62b579",
+  "total_seconds": 666.23,
+  "peak_gpu_allocated_gb": 6.053
+}

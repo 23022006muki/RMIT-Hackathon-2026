@@ -6,7 +6,7 @@ The trust constraint is that an app administrator cannot simply open the stored 
 
 ## Challenge 1 — Multilingual Protector
 
-**UEL · SGS · Lục Vị Hoàng Đế** — notebook **UEL_SGS_LucViHoangDe_C1**.
+**RMIT · SGS · Lục Vị Hoàng Đế** — report **RMIT_SGS_LucViHoangDe_C1**. The executed notebook retains its original submission-time name **UEL_SGS_LucViHoangDe_C1**; the report school was updated at the user's request after scoring.
 
 Classify Portuguese, French, Italian and English prompts into `BENIGN`, `JAILBREAK`, or `PROMPT_INJECTION`. Optimize three-class macro F1 using a reproducible language × label stratified split with detected near duplicates grouped together.
 
@@ -24,7 +24,7 @@ The official entry selects **FacebookAI/xlm-roberta-base**, approved Kaggle sour
 2. Attach the `rmit-hackathon-2026` competition input and the approved Kaggle XLM-RoBERTa model version 1. Enable a GPU. Phone verification may be needed for Kaggle GPU access.
 3. Prepare compatible dependencies if the notebook's version checks identify an incompatible image; use official PyPI/PyTorch packages. Then execute the complete pipeline from original pretrained weights.
 4. The notebook audits data, creates its split on Kaggle, runs validation experiments, measures inference truncation effects, retrains the selected configuration on the full train set, and validates `artifacts/final/submission.csv`.
-5. Save a completed private notebook version and download all outputs to this project. Keep checkpoints available locally. The project never submits a prediction CSV to Kaggle.
+5. Save a completed private notebook version and download all outputs to this project. Keep checkpoints available locally. The notebook does not automatically submit; one CSV was subsequently submitted with the user's explicit authorization.
 
 Official Kaggle run directories use the `artifacts/kaggle_` prefix to distinguish them from the historical local archives. Completion and checkpoint-origin metadata are required before selection, reporting or packaging. Input SHA256 checks ensure that only the supplied competition CSVs and original approved model source are used. Complete runtime provenance includes seed, versions, GPU, configuration, data/split hashes, timing and metrics.
 
@@ -65,8 +65,8 @@ The package includes source, notebook, reports and actual predictions. Large mod
 
 ## Publication and submission status
 
-Deadline verified: **22 October 2026 at 18:00 Asia/Saigon** (11:00 UTC). Maximum team size four. API says six daily submissions and Challenge text says six attempts; this project conservatively budgets six and has made **zero** submissions. Actual remaining account allowance and overall RMIT challenge weights are not established by this project.
+Deadline verified: **22 October 2026 at 18:00 Asia/Saigon** (11:00 UTC). Maximum team size four. API says six daily submissions and Challenge text says six attempts. One explicitly authorized CSV submission completed successfully with **public macro F1 0.94224**. See [submission evidence](artifacts/submission_status.json) and [actual validation report](reports/RESULTS.md). The final private leaderboard score and overall RMIT challenge weights are unknown.
 
 The public GitHub repository contains code and aggregate artifacts. ID-level competition data/predictions and weights remain local. An automatic approval review required explicit authorization before publishing those row-level files. Foundational Rules also require public code to be shared through the competition Kaggle forum/notebooks under an OSI-approved license permitting commercial use. The user authorized MIT for first-party code and publication of the [Kaggle source-link post](docs/kaggle_discussion_draft.md). MIT is applied and the [Kaggle sharing post](https://www.kaggle.com/competitions/rmit-hackathon-2026/discussion/751585) was published and verified. A private notebook run does not complete this public-sharing obligation.
 
-Competition data has **CC BY-NC-SA 4.0**, separate from source-code licensing. No rules from 2025 are assumed. The authorized source-link Discussion post is public. The training notebook remains private; no public notebook release or CSV submission has been made by this project.
+Competition data has **CC BY-NC-SA 4.0**, separate from source-code licensing. No rules from 2025 are assumed. The authorized source-link Discussion post is public. The training notebook remains private. The completed Kaggle output archive, final checkpoint, candidate checkpoints and actual CSV are retained locally; row-level outputs and private execution links are excluded from Git.
