@@ -1,0 +1,21 @@
+{
+  "tests": {
+    "command": "python -m unittest discover -s tests -v",
+    "tests_run": 4,
+    "result": "OK",
+    "scope": "Macro F1 label averaging, group leakage prevention, strict CSV ID/schema checks, synthetic training/checkpoint/tokenization smoke test. Synthetic metrics are not competition results."
+  },
+  "notebook": {
+    "schema": "nbformat.validate passed",
+    "python_cells": "All cells compile",
+    "executed_on_kaggle": false
+  },
+  "local_environment": {
+    "python": "3.13.7",
+    "torch": "2.8.0+cu126",
+    "cuda_available": true,
+    "gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU"
+  },
+  "competition_training": "Approved Kaggle model version 1 downloaded; full training starting",
+  "competition_submissions_used": 0
+}
