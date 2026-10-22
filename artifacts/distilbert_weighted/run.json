@@ -1,0 +1,122 @@
+{
+  "config": {
+    "model_id": "distilbert/distilbert-base-multilingual-cased",
+    "max_length": 256,
+    "truncation": "head_tail",
+    "epochs": 3,
+    "batch_size": 8,
+    "eval_batch_size": 16,
+    "accumulation_steps": 4,
+    "learning_rate": 2e-05,
+    "weight_decay": 0.01,
+    "warmup_ratio": 0.06,
+    "weight_power": 0.5,
+    "seed": 42,
+    "gradient_checkpointing": false,
+    "patience": 2,
+    "num_threads": 4,
+    "optimizer_foreach": null
+  },
+  "device": "cuda",
+  "torch": "2.8.0+cu126",
+  "gpu": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+  "train_rows": 11200,
+  "validation_rows": 2800,
+  "train_truncated": 1478,
+  "validation_truncated": 390,
+  "class_weights": [
+    0.5565543852677711,
+    0.7870867598439025,
+    1.6563588548883261
+  ],
+  "provenance": {
+    "model_id": "distilbert/distilbert-base-multilingual-cased",
+    "model_source": "D:\\RMIT Hackathon 2026\\cache\\kagglehub\\models\\aisuko\\distilbert-base-multilingual-cased\\transformers\\default\\1",
+    "config_file_sha256": "5ba7dbcb2945e2825d0565ca55060536caed088f11bca542a217baa5c06f58e7",
+    "train_file_sha256": "b6809aea692dbbb4978f45fa603bb001e10ebfbffe9bfbff964e44e2856be795",
+    "split_sha256": "5556ba9120e97bf373b807c07063739e69612ae5681ecd8351247f784b65ebac",
+    "download": {
+      "model_id": "distilbert/distilbert-base-multilingual-cased",
+      "kaggle_handle_requested": "aisuko/distilbert-base-multilingual-cased/transformers/default",
+      "resolved_model_path": "D:\\RMIT Hackathon 2026\\cache\\kagglehub\\models\\aisuko\\distilbert-base-multilingual-cased\\transformers\\default\\1",
+      "source_url": "https://www.kaggle.com/models/aisuko/distilbert-base-multilingual-cased/transformers/default",
+      "files": {
+        ".gitattributes": {
+          "bytes": 399,
+          "sha256": "a368a21c472071feec9095f63d5f7d3433826c1c476a6995f072b6755ccc6f59"
+        },
+        "config.json": {
+          "bytes": 466,
+          "sha256": "67ab80c9a476e7c2d189cd03f95d297b04bd1d90e99765323af155ab6308960e"
+        },
+        "model.safetensors": {
+          "bytes": 541795680,
+          "sha256": "fcf002be901b9ad708e0df430b8d18deaa4b3fe3519e24e9017a5ee17ca2c228"
+        },
+        "pytorch_model.bin": {
+          "bytes": 541808922,
+          "sha256": "0b528805ec3a430d9b678885d87615ac86d1ef8f4e9292a1b08b88799da70ba4"
+        },
+        "README.md": {
+          "bytes": 7316,
+          "sha256": "5e6b3a60b4ee7b458dd5a0beda20f66988c6a3d4d993dab3d2fcb90a2c52f558"
+        },
+        "tokenizer.json": {
+          "bytes": 1961828,
+          "sha256": "f4a4d5bf7301717e261fafbe26e1eb967f6ba4cb3ae0ab7a29f4642ec229f386"
+        },
+        "tokenizer_config.json": {
+          "bytes": 49,
+          "sha256": "0f6d13e6f4da6f9e24f22ada6bc3be571123d858d7c0c05a8a7cd55a9c23c2e8"
+        },
+        "vocab.txt": {
+          "bytes": 995526,
+          "sha256": "fe0fda7c425b48c516fc8f160d594c8022a0808447475c1a7c6d6479763f310c"
+        },
+        ".cache\\huggingface\\.gitignore": {
+          "bytes": 1,
+          "sha256": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1"
+        },
+        ".cache\\huggingface\\CACHEDIR.TAG": {
+          "bytes": 191,
+          "sha256": "f6572428f6d5e1575e73a1502895a8731f10757dfbb634909c6e154b849af91d"
+        },
+        ".cache\\huggingface\\download\\.gitattributes.metadata": {
+          "bytes": 101,
+          "sha256": "7082527678374f073f55660fbea5a08743be96d55c75456e2d5209820b284587"
+        },
+        ".cache\\huggingface\\download\\config.json.metadata": {
+          "bytes": 100,
+          "sha256": "c60d3b367ed29401b7e9d662f8f4e3990485c3437e892865d98047b4df9db8ce"
+        },
+        ".cache\\huggingface\\download\\model.safetensors.metadata": {
+          "bytes": 125,
+          "sha256": "6d5e1e38f12dbc736f684a260c8eebde4b13615cf4def707beffa128cb4cbaad"
+        },
+        ".cache\\huggingface\\download\\pytorch_model.bin.metadata": {
+          "bytes": 125,
+          "sha256": "d43106b6e1c33abd1dd534db0bcd4e4d16655e8a85967fcecbdbf6c1d7f47849"
+        },
+        ".cache\\huggingface\\download\\README.md.metadata": {
+          "bytes": 101,
+          "sha256": "213674d615c65c8a204d78137880472cb79ff98e668c90a583c79452d0eee88a"
+        },
+        ".cache\\huggingface\\download\\tokenizer.json.metadata": {
+          "bytes": 101,
+          "sha256": "f3bc28768003e5d2feb38bfdd04e4c1c526382836204085c6f0e62a3de0a02d1"
+        },
+        ".cache\\huggingface\\download\\tokenizer_config.json.metadata": {
+          "bytes": 100,
+          "sha256": "e3a8dda051fb3e5b33be7352ba2691a68c7c10cfc9ac348567d0b5d782bed777"
+        },
+        ".cache\\huggingface\\download\\vocab.txt.metadata": {
+          "bytes": 100,
+          "sha256": "fa7a6245c93cb942da34c9d05c617ecdc3fdff4f38270157f68a903067a665a9"
+        }
+      }
+    }
+  },
+  "pretrained_config_sha256": "67ab80c9a476e7c2d189cd03f95d297b04bd1d90e99765323af155ab6308960e",
+  "total_seconds": 541.67,
+  "peak_gpu_allocated_gb": 2.613
+}

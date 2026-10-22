@@ -61,7 +61,7 @@ def main():
     plt.close(fig)
     final_path = ROOT / "artifacts/final/submission_validation.json"
     final = json.loads(final_path.read_text(encoding="utf-8")) if final_path.exists() else None
-    table_text = table.to_csv(index=False, float_format="%.6f")
+    table_text = table.to_csv(index=False, float_format="%.6f", lineterminator="\n")
     body = f"""# Actual experiment results
 
 Team: UEL / SGS / Lục Vị Hoàng Đế. Notebook: UEL_SGS_LucViHoangDe_C1.

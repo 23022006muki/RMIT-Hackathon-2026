@@ -7,6 +7,7 @@ The following numbers come from completed local training runs, not Kaggle leader
 ```csv
 run,model,macro_f1,BENIGN,JAILBREAK,PROMPT_INJECTION,pt,fr,it,en,seconds
 distilbert_ce,distilbert/distilbert-base-multilingual-cased,0.908549,0.940307,0.895260,0.890080,0.877467,0.953065,0.945971,0.849625,555.450000
+distilbert_weighted,distilbert/distilbert-base-multilingual-cased,0.906328,0.938462,0.892794,0.887728,0.876938,0.946834,0.931041,0.884757,541.670000
 ```
 
 ![Validation](validation.png)
