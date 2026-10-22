@@ -41,6 +41,24 @@ def main():
         raise ValueError("Use configuration files inside the repository configs directory")
     payload = base64.b64encode(zlib.compress(json.dumps(sources).encode("utf-8"), 9)).decode("ascii")
     cells = [nbf.v4.new_markdown_cell(f"# {title}\n\n**Chosen approved backbone:** `{model_id}`\n\n**Team:** {team['display_name']} — {team['university']} / {team['campus']}. Primary configuration: `{args.config}`.\n\nFine-tune one approved encoder, evaluate macro F1 on a group-aware split, then retrain on all training rows. Attach the competition and the [approved Kaggle model](https://www.kaggle.com/models/{APPROVED[model_id]}) in Input and enable a GPU. Source code is embedded; competition IDs, labels, prompts, predictions and split data are not embedded. No GitHub checkout or external pretrained backbone is fetched. This notebook creates a CSV and never submits to Kaggle.\n\nPrepare compatible dependencies before an offline run: PyTorch >=2.8,<3, Transformers >=4.56,<5, NumPy >=2.1,<3, pandas >=2.2,<3, scikit-learn >=1.6,<2, safetensors >=0.5. If packages are missing, install compatible versions from PyPI while internet is enabled and restart the kernel. Keep a compatible CUDA PyTorch build.\n\nCompetition Overview, Data, Challenge and Foundational Rules were verified through the official Kaggle API on 2026-10-22. Deadline: 18:00 Asia/Saigon on 2026-10-22. Public code must also be shared on the competition Kaggle forum/notebooks under an OSI-approved license; check repository publication/license status before submission. Organizer replies require all training inside Kaggle, exactly one approved model, no combining predictions from different checkpoints, and no external or synthetic training data. Only original approved pretrained weights initialize this notebook. Earlier local experiments are ineligible archives and are never loaded here. See Discussion topics 751573, 751570 and 751566. No external data, translation model or pseudo-labeling is used.")]
+    cells.append(nbf.v4.new_code_cell("""# Install compatible official packages before importing ML libraries.
+import os, sys, subprocess
+from importlib.metadata import version, PackageNotFoundError
+from pathlib import Path
+from packaging.version import Version
+assert os.environ.get('KAGGLE_KERNEL_RUN_TYPE') and Path('/kaggle/working').is_dir(), 'Execute inside Kaggle.'
+needed = []
+for distribution, lo, hi, requirement in [('transformers','4.57.6','4.58','transformers==4.57.6'), ('numpy','2.1','3','numpy>=2.1,<3'), ('pandas','2.2','3','pandas>=2.2,<3'), ('scikit-learn','1.6','2','scikit-learn>=1.6,<2'), ('safetensors','0.5','1','safetensors>=0.5,<1')]:
+    try:
+        compatible = Version(lo) <= Version(version(distribution)) < Version(hi)
+    except PackageNotFoundError:
+        compatible = False
+    if not compatible:
+        needed.append(requirement)
+if needed:
+    print('Installing compatible packages:', needed, flush=True)
+    subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--disable-pip-version-check', '--quiet', *needed])
+print('Dependency preparation complete. Use a fresh Save & Run All execution to avoid modules cached by an earlier interactive run.')"""))
     cells.append(nbf.v4.new_code_cell(f"""import os, sys, json, base64, zlib
 from pathlib import Path
 from packaging.version import Version
