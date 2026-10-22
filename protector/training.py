@@ -17,19 +17,20 @@ from transformers import DataCollatorWithPadding, get_linear_schedule_with_warmu
 from .constants import ENCODERS, LABEL2ID, LABELS
 from .data import load_split, read_data, sha256, validate_submission, write_json
 from .metrics import export_predictions, score
+from .runtime import ENTRY_MODEL_ID, COMPETITION_SHA256, require_kaggle_runtime, verify_competition_input, verify_pretrained_input
 
 os.environ.setdefault("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
 
 
 @dataclass
 class TrainConfig:
-    model_id: str = "distilbert/distilbert-base-multilingual-cased"
+    model_id: str = ENTRY_MODEL_ID
     max_length: int = 256
     truncation: str = "head_tail"
     epochs: int = 3
-    batch_size: int = 8
-    eval_batch_size: int = 16
-    accumulation_steps: int = 4
+    batch_size: int = 16
+    eval_batch_size: int = 32
+    accumulation_steps: int = 2
     learning_rate: float = 2e-5
     weight_decay: float = 0.01
     warmup_ratio: float = 0.06
@@ -118,7 +119,17 @@ def infer_logits(model, loader, device):
     return np.concatenate(predictions)
 
 
-def run_training(config, model_path, train_frame, validation_frame, output, provenance):
+def run_training(config, model_path, train_frame, validation_frame, output, provenance, *, synthetic_test=False):
+    if synthetic_test:
+        n = len(train_frame) + (len(validation_frame) if validation_frame is not None else 0)
+        if not provenance.get("synthetic_fixture") or n > 128 or "train_file_sha256" in provenance:
+            raise ValueError("Synthetic smoke-test mode accepts only tiny, explicitly marked random fixtures")
+        execution = {"platform": "synthetic-test", "is_kaggle": False}
+    else:
+        execution = require_kaggle_runtime(config.model_id)
+        verify_pretrained_input(model_path, config.model_id)
+        if provenance.get("train_file_sha256") != COMPETITION_SHA256["train.csv"]:
+            raise ValueError("Production training must originate from the provided train.csv")
     output = Path(output)
     if (output / "history.json").exists():
         raise ValueError(f"Run already exists: {output}; use a new run directory")
@@ -157,6 +168,7 @@ def run_training(config, model_path, train_frame, validation_frame, output, prov
     scheduler = get_linear_schedule_with_warmup(optimizer, int(total_updates * config.warmup_ratio), total_updates)
     scaler = torch.amp.GradScaler("cuda", enabled=device.type == "cuda")
     runtime = {
+        "execution": execution,
         "config": asdict(config), "device": str(device), "torch": torch.__version__,
         "gpu": torch.cuda.get_device_name(0) if device.type == "cuda" else None,
         "train_rows": len(train_frame), "validation_rows": len(validation_frame) if validation_frame is not None else 0,
@@ -214,6 +226,7 @@ def run_training(config, model_path, train_frame, validation_frame, output, prov
             model.save_pretrained(output / "checkpoint", safe_serialization=True)
             tokenizer.save_pretrained(output / "checkpoint")
             write_json(output / "checkpoint" / "protector_config.json", asdict(config))
+            write_json(output / "checkpoint" / "training_origin.json", execution)
             write_json(output / "best_epoch.json", {"epoch": epoch, "macro_f1": metric["macro_f1"] if metric else None})
             if metric:
                 best = metric["macro_f1"]
@@ -237,6 +250,8 @@ def run_training(config, model_path, train_frame, validation_frame, output, prov
 
 def train_experiment(data_dir, split_path, config_path, model_path, output):
     config = config_from_file(config_path)
+    require_kaggle_runtime(config.model_id)
+    verify_competition_input(data_dir)
     tr, _, _ = read_data(data_dir)
     train, val = load_split(tr, split_path)
     provenance = {"model_id": config.model_id, "model_source": str(Path(model_path).resolve()), "config_file_sha256": sha256(config_path), "train_file_sha256": sha256(Path(data_dir) / "train.csv"), "split_sha256": sha256(split_path)}
@@ -252,6 +267,11 @@ def predict(data_dir, checkpoint, output, bias_path=None):
     checkpoint, output = Path(checkpoint), Path(output)
     tr, te, sample = read_data(data_dir)
     config = config_from_file(checkpoint / "protector_config.json")
+    require_kaggle_runtime(config.model_id)
+    verify_competition_input(data_dir)
+    origin = checkpoint / "training_origin.json"
+    if not origin.exists() or json.loads(origin.read_text(encoding="utf-8")).get("platform") != "kaggle":
+        raise ValueError("Checkpoint does not originate from this Kaggle training pipeline")
     seed_everything(config.seed, config.num_threads)
     tokenizer = AutoTokenizer.from_pretrained(checkpoint, local_files_only=True, trust_remote_code=False)
     model = AutoModelForSequenceClassification.from_pretrained(checkpoint, local_files_only=True, trust_remote_code=False)
@@ -272,6 +292,7 @@ def predict(data_dir, checkpoint, output, bias_path=None):
     sample.to_csv(output / "submission.csv", index=False)
     np.save(output / "test_logits.npy", logits)
     validation = validate_submission(output / "submission.csv", data_dir)
+    validation["execution"] = require_kaggle_runtime(config.model_id)
     validation["checkpoint"] = str(checkpoint.resolve())
     validation["truncated_test_rows"] = ds.truncated
     validation["bias"] = bias.tolist()
@@ -288,6 +309,10 @@ def finalize(data_dir, experiment, model_path, output, bias_path=None):
     experiment, output = Path(experiment), Path(output)
     run = json.loads((experiment / "run.json").read_text(encoding="utf-8"))
     config = TrainConfig(**run["config"])
+    require_kaggle_runtime(config.model_id)
+    verify_competition_input(data_dir)
+    if run.get("execution", {}).get("platform") != "kaggle":
+        raise ValueError("A local experiment cannot select or initialize an official entry")
     best = json.loads((experiment / "best_epoch.json").read_text(encoding="utf-8"))
     config.epochs = best["epoch"]
     tr, _, _ = read_data(data_dir)

@@ -8,6 +8,7 @@ from sklearn.model_selection import train_test_split
 
 from .constants import LABEL2ID
 from .data import write_json
+from .runtime import require_kaggle_runtime
 
 
 def calibrate(experiment):
@@ -16,6 +17,7 @@ def calibrate(experiment):
     This optional analysis must not be confused with a new independent test:
     checkpoint selection already used the whole validation set.
     """
+    require_kaggle_runtime()
     experiment = Path(experiment)
     frame = pd.read_csv(experiment / "validation_predictions.csv")
     logits = frame[[f"logit_{label}" for label in LABEL2ID]].to_numpy()

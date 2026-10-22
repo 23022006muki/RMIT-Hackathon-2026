@@ -52,20 +52,35 @@
       "id": 751573,
       "title": "Is local / external GPU training allowed for Challenge 1?",
       "url": "https://www.kaggle.com/competitions/rmit-hackathon-2026/discussion/751573",
-      "answers_retrieved": false
+      "answers_retrieved": true,
+      "answer_id": 3542538,
+      "answer_posted_utc": "2026-10-22T03:52:31.457Z",
+      "answer_sha256_utf8": "1ca1a290e365a25dc7823538a096e1405e4b4385d7b77245f80daa21bd93d9fe"
     },
     {
       "id": 751570,
       "title": "External data for training",
       "url": "https://www.kaggle.com/competitions/rmit-hackathon-2026/discussion/751570",
-      "answers_retrieved": false
+      "answers_retrieved": true,
+      "answer_id": 3542539,
+      "answer_posted_utc": "2026-10-22T03:55:23.603Z",
+      "answer_sha256_utf8": "00999c8729f1d5ba9055a23d8de5281138b19e39b5e2bc35d090d2f1f66b0c89"
     },
     {
       "id": 751566,
       "title": "Clarification: one fine-tuned model vs. combining models, and how notebooks are verified?",
       "url": "https://www.kaggle.com/competitions/rmit-hackathon-2026/discussion/751566",
-      "answers_retrieved": false
+      "answers_retrieved": true,
+      "answer_id": 3542536,
+      "answer_posted_utc": "2026-10-22T03:49:47.670Z",
+      "answer_sha256_utf8": "d006deed6ac8dc400750a8256b006bea3847e3dc50b7e4a6e739c2007d42ff6e"
     }
   ],
-  "discussion_answer_access": "Read-only comment API returned empty responses; browser was rate-limited. Do not infer organizer permission from question titles."
+  "discussion_answer_access": "Answers retrieved successfully via official CompetitionApiService.ListTopicMessages; previous empty generic-comment responses were superseded.",
+  "training_platform": "All competition training must occur within Kaggle. Local/external GPU training and uploading fine-tuned local weights are prohibited.",
+  "entry_model": "FacebookAI/xlm-roberta-base",
+  "ensemble_allowed": false,
+  "external_training_data_allowed": false,
+  "synthetic_training_data_allowed": false,
+  "local_runs_status": "Stopped and archived as ineligible after organizer answers were retrieved. Never reused as competition initialization, selection evidence or predictions."
 }

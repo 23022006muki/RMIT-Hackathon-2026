@@ -117,5 +117,12 @@
   },
   "pretrained_config_sha256": "67ab80c9a476e7c2d189cd03f95d297b04bd1d90e99765323af155ab6308960e",
   "total_seconds": 555.45,
-  "peak_gpu_allocated_gb": 2.613
+  "peak_gpu_allocated_gb": 2.613,
+  "competition_eligible": false,
+  "execution": {
+    "platform": "local-archive",
+    "is_kaggle": false
+  },
+  "eligibility_reason": "Organizer clarification 751573/751566 requires all competition training in Kaggle and forbids local GPU training. These earlier local experiments are excluded from the entry; weights and predictions must not be submitted or uploaded to Kaggle.",
+  "status_after_rules_clarification": "completed_local_only"
 }

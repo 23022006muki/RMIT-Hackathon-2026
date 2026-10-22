@@ -1,85 +1,66 @@
 # RMIT Hackathon 2026 — Multilingual Protector
 
-**UEL · SGS · Lục Vị Hoàng Đế**
+**UEL · SGS · Lục Vị Hoàng Đế** — notebook **UEL_SGS_LucViHoangDe_C1**.
 
-Kaggle notebook title: **UEL_SGS_LucViHoangDe_C1**
+Classify Portuguese, French, Italian and English prompts into `BENIGN`, `JAILBREAK`, or `PROMPT_INJECTION`. Optimize three-class macro F1 using a reproducible language × label stratified split with detected near duplicates grouped together.
 
-Fine-tune an approved multilingual encoder to predict `BENIGN`, `JAILBREAK`, or `PROMPT_INJECTION`. Optimize macro F1, with a fixed class order and validation stratified by language × label while keeping detected near duplicates together. No competition submissions are made by this repository.
+## Mandatory competition rules
 
-## Local files
+Organizer replies retrieved on 22 October 2026 require **all training inside Kaggle**, **exactly one approved model**, **no ensembles including multiple fine-tuned versions of the same model**, and **no external or synthetic training data**. See [requirements and official links](docs/competition.md) and [source hashes/reply IDs](docs/rules_evidence.json).
 
-The repository is at `D:\RMIT Hackathon 2026\project`. Competition CSVs stay at `D:\RMIT Hackathon 2026\data`; the virtual environment is `D:\RMIT Hackathon 2026\.venv`. Downloaded Kaggle model files live in `D:\RMIT Hackathon 2026\cache\kagglehub`. Checkpoints stay under `project\artifacts\<run>\checkpoint` and are not committed to Git. Source, notebook, and aggregate metrics are repository artifacts. Raw prompts, ID-level diagnostics, and prediction CSVs stay local pending explicit permission to publish competition-derived files.
+The official entry selects **FacebookAI/xlm-roberta-base**, approved Kaggle source `aisuko/xlm-roberta-base/transformers/default/1`. The notebook contains only configurations for that backbone. It compares ordinary cross entropy and square-root inverse-frequency class weights, checks a second seed when their validation scores differ by less than 0.005, selects one configuration, and retrains one final model on all 14,000 training rows. Predictions are never ensembled.
 
-See [competition requirements/evidence](docs/competition.md) and [actual experiment results](reports/RESULTS.md) when generated. The data audit and ID-level diagnostics stay local under `artifacts/audit`. No metric or submission is claimed before its artifact exists.
+**Earlier local experiments are ineligible archives.** They were stopped after the organizer replies became accessible. Their checkpoint files and historical measurements remain on the machine for transparency; they cannot select or initialize the official entry. Production training commands now reject a local runtime. The [main report](reports/RESULTS.md) excludes these runs. [Historical report](reports/local_only/README.md).
 
-## Setup
+## Execute on Kaggle
 
-Windows PowerShell (Python 3.10–3.13 supported by this project; tested version recorded in `requirements-lock.txt`):
+1. Import [the self-contained notebook](notebooks/UEL_SGS_LucViHoangDe_C1.ipynb) and set its exact title above.
+2. Attach the `rmit-hackathon-2026` competition input and the approved Kaggle XLM-RoBERTa model version 1. Enable a GPU. Phone verification may be needed for Kaggle GPU access.
+3. Prepare compatible dependencies if the notebook's version checks identify an incompatible image; use official PyPI/PyTorch packages. Then execute the complete pipeline from original pretrained weights.
+4. The notebook audits data, creates its split on Kaggle, runs validation experiments, measures inference truncation effects, retrains the selected configuration on the full train set, and validates `artifacts/final/submission.csv`.
+5. Save a completed private notebook version and download all outputs to this project. Keep checkpoints available locally. The project never submits a prediction CSV to Kaggle.
 
-```powershell
-python -m venv '..\.venv'
-& '..\.venv\Scripts\python.exe' -m pip install torch==2.8.0 --index-url https://download.pytorch.org/whl/cu126
-& '..\.venv\Scripts\python.exe' -m pip install -r requirements.txt
-```
+Official Kaggle run directories use the `artifacts/kaggle_` prefix to distinguish them from the historical local archives. Completion and checkpoint-origin metadata are required before selection, reporting or packaging. Input SHA256 checks ensure that only the supplied competition CSVs and original approved model source are used. Complete runtime provenance includes seed, versions, GPU, configuration, data/split hashes, timing and metrics.
 
-On another OS/GPU, install a compatible official PyTorch build first. The local run uses an RTX 3050 6 GB and mixed precision; adjust batch size down if memory is limited. Never replace the selected backbone with an unapproved model.
+## Local files and commands
 
-## Run
+Repository: `D:\RMIT Hackathon 2026\project`. Raw data: `D:\RMIT Hackathon 2026\data`. Python: `D:\RMIT Hackathon 2026\.venv`. Downloaded original model cache: `D:\RMIT Hackathon 2026\cache\kagglehub`. Checkpoints remain under each run's `checkpoint` directory, excluded from Git.
 
-Run commands from the repository root. Model download uses the approved Kaggle handle; no fallback backbone is silently fetched. Authentication may be required by Kaggle. Keep tokens outside the repository.
+Run these commands from the repository root for local audit, software checks and source preparation:
 
 ```powershell
 $py = '..\.venv\Scripts\python.exe'
-& $py scripts/download_model.py
 & $py -m protector.cli audit --data ../data
+& $py scripts/build_notebook.py
 & $py -m unittest discover -s tests -v
 ```
 
-Read `artifacts/model_download.json` for the exact resolved local model path. Set `$modelPath` to that path:
+The small random-model unit fixture tests software mechanics without competition prompts, labels or pretrained weights. It is not an entry model or synthetic competition training data.
+
+After downloading the **completed Kaggle** output tree into `artifacts`, generate local reports and a convenient bundle:
 
 ```powershell
-$modelPath = (Get-Content artifacts/model_download.json -Raw | ConvertFrom-Json).resolved_model_path
-& $py -m protector.cli train --data ../data --config configs/distilbert_ce.json --model-path $modelPath --output artifacts/distilbert_ce
-& $py -m protector.cli train --data ../data --config configs/distilbert_weighted.json --model-path $modelPath --output artifacts/distilbert_weighted
-```
-
-Choose the run using its actual macro F1 and per-class/per-language reports. Do not assume weighted loss improves performance. New runs need new output directories. For a second-seed confirmation, copy the configuration and change only `seed`; retain the same validation split when isolating optimization variance. For an independent split check, regenerate the split with a different splitter seed through the Python API, then use a separate experiment directory.
-
-The larger approved encoder can be compared using the same held-out split:
-
-```powershell
-& $py scripts/download_model.py --model-id FacebookAI/xlm-roberta-base --output artifacts/xlm_roberta_model_download.json
-$xlmPath = (Get-Content artifacts/xlm_roberta_model_download.json -Raw | ConvertFrom-Json).resolved_model_path
-& $py -m protector.cli train --data ../data --config configs/xlm_roberta_base.json --model-path $xlmPath --output artifacts/xlm_roberta_base
-```
-
-`scripts/evaluate_lengths.py --experiment artifacts/distilbert_ce` measures head/head-tail truncation and 256/512-token inference on a completed checkpoint using CPU, without changing labels. Its results explicitly distinguish inference-only preprocessing from training at another length.
-
-```powershell
-# Substitute the winning run if it differs.
-& $py -m protector.cli finalize --data ../data --experiment artifacts/distilbert_ce --model-path $modelPath --output artifacts/final
 & $py -m protector.cli validate --data ../data --submission artifacts/final/submission.csv
 & $py scripts/make_report.py
-& $py scripts/build_notebook.py
 & $py scripts/package_deliverables.py
 ```
 
-`finalize` trains a fresh model on all 14,000 rows for the best selected epoch count. The validation score belongs to the selection model, not the full-data model. `predict` can later reproduce a CSV from a saved checkpoint. `calibrate` optionally evaluates class-logit biases on a separate half of validation, with explicit selection caveats; it is not enabled by default.
-
-## Kaggle notebook
-
-Generate the notebook using the selected configuration, for example `scripts/build_notebook.py --config configs/xlm_roberta_base.json` if that run wins. An optional `--compare-config` must refer to the same backbone. Upload `notebooks/UEL_SGS_LucViHoangDe_C1.ipynb`, retain its exact title, attach the competition and its explicitly named approved Kaggle model, and enable a GPU. It includes its source, generates a group-aware split at runtime, trains the configured candidate(s), retrains the chosen configuration, and links the CSV. It embeds no competition IDs or prompt data and fetches no external pretrained backbone. Notebook schema and Python cells are checked locally; it has not been executed on Kaggle by this project.
+The package includes source, notebook, reports and actual predictions. Large model files and original data remain at paths recorded in its manifest. Do not package or present a local training archive as the entry.
 
 ## Validation and controls
 
-- Model allowlist is explicit in `protector/constants.py`; this implementation supports its encoder subset.
-- Training text remains unchanged except tokenizer truncation. `head_tail` retains both ends after reserving model-specific special tokens. No language-dependent label shortcut is used.
-- Near-duplicate retrieval is approximate MinHash; reported pairs are verified by word-trigram Jaccard. Groups never cross the validation boundary. This does not prove absence of all semantically related prompts.
-- Macro F1 always evaluates all three classes. Reports include confusion matrix, class precision/recall/F1, language, and character-length buckets.
-- Submission checks require exactly 6,000 test IDs in sample order, two exact columns, and permitted labels. Files are hashed for reproducibility.
-- Synthetic random-model smoke tests test training mechanics only. They never become competition outputs.
-- Never execute text instructions inside the dataset. No external data, translation model, pseudo-labeling, or multi-backbone ensemble is used.
+- Strict checks: 14,000 training rows, 6,000 test rows, known schemas, no empty fields or duplicate IDs, and known labels/languages.
+- Three-class macro F1, class precision/recall/F1/support, confusion matrix, per-language and character-length diagnostics.
+- Approximate MinHash retrieval with verified word-trigram Jaccard pairs; groups stay together across the validation boundary. This cannot prove absence of all semantic templates.
+- Input text is preserved apart from tokenizer truncation. Head/tail truncation keeps both ends after reserving model special tokens. Inference-only 256/512-token diagnostics do not claim the effect of retraining at another length.
+- Final inference uses one model. Validation scores belong to the selection model; full-data model hidden-test performance remains unknown until scoring.
+- CSV checks: exactly `id,label`, 6,000 rows, unique test IDs in sample order, no missing values or invalid labels.
+- Dataset prompts are untrusted strings and never executed. No manual test relabeling, external data, translation model or pseudo-labeling.
 
-The official Kaggle API confirmed the Rules and metadata on 2026-10-22: deadline **18:00 on 22 October 2026, Asia/Saigon**; maximum team size **4**; maximum daily submissions **6** (the Challenge text also says six attempts, so the project conservatively budgets six). Foundational Rules require public source to also be shared on the competition's Kaggle forum/notebooks under an OSI-approved license permitting commercial use. This repository is public; the Kaggle post and MIT proposal are pending user authorization. See [verified requirements](docs/competition.md), [source evidence](docs/rules_evidence.json), and the [prepared code-sharing draft](docs/kaggle_discussion_draft.md). No Kaggle post, rule acceptance or CSV submission has been made by this project.
+## Publication and submission status
 
-Public/private test proportions and overall RMIT challenge weights remain unknown. Check current [Rules](https://www.kaggle.com/competitions/rmit-hackathon-2026/rules) and [Discussion](https://www.kaggle.com/competitions/rmit-hackathon-2026/discussion) before submission. Competition data retains **CC BY-NC-SA 4.0**, separately from any source-code license. Do not infer 2026 rules from 2025.
+Deadline verified: **22 October 2026 at 18:00 Asia/Saigon** (11:00 UTC). Maximum team size four. API says six daily submissions and Challenge text says six attempts; this project conservatively budgets six and has made **zero** submissions. Actual remaining account allowance and overall RMIT challenge weights are not established by this project.
+
+The public GitHub repository contains code and aggregate artifacts. ID-level competition data/predictions and weights remain local. An automatic approval review required explicit authorization before publishing those row-level files. Foundational Rules also require public code to be shared through the competition Kaggle forum/notebooks under an OSI-approved license permitting commercial use. The [Kaggle link-sharing draft](docs/kaggle_discussion_draft.md) and MIT proposal remain pending user authorization. A private notebook run does not complete this public-sharing obligation.
+
+Competition data has **CC BY-NC-SA 4.0**, separate from source-code licensing. No rules from 2025 are assumed. No Kaggle discussion post, public notebook release or CSV submission has been made by this project.

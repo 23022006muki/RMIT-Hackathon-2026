@@ -32,10 +32,13 @@ class NotebookArtifactTests(unittest.TestCase):
         self.assertIn(f"`{model_id}`", notebook.cells[0].source)
         self.assertIn("https://www.kaggle.com/models/" + APPROVED[model_id], notebook.cells[0].source)
         embedded = json.loads(zlib.decompress(base64.b64decode(literals["payload"], validate=True)))
-        expected = {p.relative_to(root).as_posix(): p.read_text(encoding="utf-8") for directory, pattern in (("protector", "*.py"), ("configs", "*.json")) for p in (root / directory).glob(pattern)}
+        expected = {p.relative_to(root).as_posix(): p.read_text(encoding="utf-8") for p in (root / "protector").glob("*.py")}
+        for relative in set(literals["CONFIG_PATHS"]) | {"configs/team.json"}:
+            expected[relative] = (root / relative).read_text(encoding="utf-8")
         self.assertEqual(embedded, expected, "Notebook must embed current source/config only, with no competition row/split payload")
         for config_path in literals["CONFIG_PATHS"]:
             self.assertEqual(json.loads(embedded[config_path])["model_id"], model_id)
+        self.assertNotIn("configs/distilbert_ce.json", embedded)
 
 
 if __name__ == "__main__":

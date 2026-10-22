@@ -9,7 +9,7 @@ On **2026-10-22**, the official Kaggle SDK successfully read `CompetitionApiServ
 | Three exact labels; pt/fr/it/en | Data, Challenge, Evaluation pages; local audit | Fixed mapping and schema checks |
 | 14,000 train and 6,000 test rows | Data page and CSV files | Strict size, schema, blank-field and ID checks |
 | Macro F1, equal weight for each class | Evaluation page and API metric | Explicit three-class macro F1; precision/recall/F1 by class |
-| One approved pretrained backbone for the final solution | Challenge page, approved model list | Allowlist; exact approved Kaggle DistilBERT and XLM-R source versions downloaded for separate experiments; no ensemble |
+| One approved pretrained backbone for the final solution | Challenge page, approved model list | Official entry selects FacebookAI/xlm-roberta-base only, from approved Kaggle version 1; no ensembles, including same-backbone checkpoints. Earlier local experiments are ineligible archives. |
 | Fine-tune on supplied training data | Challenge page | Held-out selection, then full-data retraining; no external dataset |
 | Model name at notebook top | Challenge page | Generated first markdown cell |
 | Naming `<university>_<campus>_<team>_C1` | Overview abstract | UEL_SGS_LucViHoangDe_C1; unaccented team identifier |
@@ -34,15 +34,20 @@ The user authorized GitHub publication. An automatic approval review separately 
 
 The draft Kaggle post only shares the already-public GitHub source link. Posting it does not submit a prediction CSV. No Kaggle post, notebook publication, rule acceptance or competition submission has been performed by this project. A code-license proposal has been prepared without applying it until the user decides.
 
-## Discussion clarifications still unresolved
+## Verified organizer clarifications
 
-The official FAQ topic was read through the SDK. It asks participants to share notebooks with specified people or the Kaggle Group feature; reviewer identities and the exact scoring workflow are not supplied in that text. The following current discussion questions were also read, but their answers could not be retrieved: the public comment API returned empty arrays and the browser remained rate-limited. Do not treat the questions as organizer permission:
+Official `CompetitionApiService.ListTopicMessages` returned the organizer replies; this supersedes the previous empty generic-comment API responses.
 
-- [Local/external GPU training and notebook reruns](https://www.kaggle.com/competitions/rmit-hackathon-2026/discussion/751573)
-- [External or synthetic training data](https://www.kaggle.com/competitions/rmit-hackathon-2026/discussion/751570)
-- [Combining models and notebook verification](https://www.kaggle.com/competitions/rmit-hackathon-2026/discussion/751566)
+| Clarification | Official reply | Enforcement |
+|---|---|---|
+| All training must occur inside Kaggle; local/external GPU training and uploading local fine-tuned weights are forbidden | [Topic 751573, reply 3542538](https://www.kaggle.com/competitions/rmit-hackathon-2026/discussion/751573) | Runtime guards, original approved Kaggle input, and checkpoint-origin metadata |
+| Use only supplied training data; no external data or synthetic data generation | [Topic 751570, reply 3542539](https://www.kaggle.com/competitions/rmit-hackathon-2026/discussion/751570) | Exact competition input hashes; no augmentation or external data |
+| Exactly one approved model; no ensembles, including multiple fine-tuned versions of one model | [Topic 751566, reply 3542536](https://www.kaggle.com/competitions/rmit-hackathon-2026/discussion/751566) | Only XLM-RoBERTa configurations appear in the official notebook; select one loss/configuration; never combine predictions |
+| Complete training/inference notebook required; organizers can access notebooks; high-ranking notebooks may be public | Same replies and official FAQ | Self-contained notebook, exact team title, complete training from approved original pretrained input |
 
-Local experiment scores are valid local measurements, but do not alone establish competition acceptance of a locally trained checkpoint. The generated notebook trains the complete selected pipeline from the approved Kaggle pretrained model and supplied data; it does not require importing local fine-tuned weights. Confirm organizer guidance or execute the full notebook on Kaggle before relying on a local-only CSV for scoring.
+Earlier local DistilBERT and partial XLM-R experiments were run before these answers were successfully retrieved. They were stopped and explicitly marked ineligible. Their model files remain locally for transparency. Reports under `reports/local_only` are historical measurements, not eligible entry scores. No checkpoint or CSV from those runs may be submitted or uploaded as Kaggle model initialization. The official entry is trained afresh in Kaggle.
+
+The official FAQ asks participants to share notebooks with specific people or via Kaggle Group; reviewer identities are not supplied in that text. Confirm the participant's actual organizer/team sharing configuration before claiming verification access is complete. Local random-model unit fixtures contain no competition data and only test software mechanics; they are not training-data generation for the entry.
 
 ## Official sources
 

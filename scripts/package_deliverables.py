@@ -20,6 +20,9 @@ def main():
     final = ROOT / "artifacts/final"
     if not (final / "submission_validation.json").exists():
         raise RuntimeError("Finish and validate the actual final model before packaging")
+    origin = json.loads((final / "run.json").read_text(encoding="utf-8"))
+    if origin.get("execution", {}).get("platform") != "kaggle" or "total_seconds" not in origin:
+        raise RuntimeError("Final checkpoint must come from a completed Kaggle training run")
     result = validate_submission(final / "submission.csv", ROOT / args.data)
     output = (ROOT / args.output).resolve()
     output.mkdir(parents=True, exist_ok=True)

@@ -25,14 +25,14 @@ class TrainingSmoke(unittest.TestCase):
             # DistilBERT does not accept token_type_ids.
             tokenizer.model_input_names = ["input_ids", "attention_mask"]
             tokenizer.save_pretrained(source)
-            config = TrainConfig(epochs=1, batch_size=3, eval_batch_size=3, accumulation_steps=2, max_length=16, num_threads=1)
+            config = TrainConfig(model_id="distilbert/distilbert-base-multilingual-cased", epochs=1, batch_size=3, eval_batch_size=3, accumulation_steps=2, max_length=16, num_threads=1)
             frame = pd.DataFrame({"id": [str(i) for i in range(9)], "text": ["hello " + "middle " * 25 + "end"] * 9, "language": ["pt"] * 9, "label": LABELS * 3})
             encoded = EncodedPrompts(frame, tokenizer, config)
             self.assertEqual(encoded.truncated, 9)
             self.assertEqual(encoded[0]["input_ids"][-2], vocabulary.index("end"))
             architecture = DistilBertConfig(vocab_size=len(vocabulary), max_position_embeddings=32, n_layers=1, n_heads=2, dim=16, hidden_dim=24, num_labels=3)
             DistilBertForSequenceClassification(architecture).save_pretrained(source)
-            run_training(config, source, frame.iloc[:6], frame.iloc[6:].reset_index(drop=True), path / "run", {"synthetic_fixture": True})
+            run_training(config, source, frame.iloc[:6], frame.iloc[6:].reset_index(drop=True), path / "run", {"synthetic_fixture": True}, synthetic_test=True)
             metric = json.loads((path / "run/metrics.json").read_text())
             self.assertTrue(0 <= metric["macro_f1"] <= 1)
             self.assertTrue((path / "run/checkpoint/model.safetensors").exists())
