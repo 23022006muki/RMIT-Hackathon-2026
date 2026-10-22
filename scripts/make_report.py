@@ -40,9 +40,26 @@ def main():
     table.to_csv(reports / "experiments.csv", index=False)
     best_name = table.iloc[0]["run"]
     best_path, metric, run = next(item for item in sources if item[0].parent.name == best_name)
+    classes = pd.DataFrame([{ "class": label, **metric["class_report"][label]} for label in LABELS])
+    lengths = pd.DataFrame([{ "characters": bucket, **stat} for bucket, stat in metric["by_length_characters"].items()])
+    classes.to_csv(reports / "class_metrics.csv", index=False)
+    lengths.to_csv(reports / "length_buckets.csv", index=False)
+    rule_path = ROOT / "docs/rules_evidence.json"
+    rules = json.loads(rule_path.read_text(encoding="utf-8")) if rule_path.exists() else {}
+    rules_status = ("Rules verified through the official Kaggle API on 2026-10-22. Deadline: 2026-10-22 18:00 Asia/Saigon. " + rules.get("kaggle_code_publication_status", "Check code publication/license status.")) if rules else "Rules verification evidence not available."
+    ablation_path = ROOT / "artifacts/length_ablation/results.json"
+    ablation = json.loads(ablation_path.read_text(encoding="utf-8")) if ablation_path.exists() else None
+    ablation_text, ablation_html = "Not completed yet.", "Not completed yet."
+    if ablation:
+        ablation_table = pd.DataFrame([{k: v for k, v in condition.items() if k != "metrics"} for condition in ablation["conditions"]])
+        state = f"{len(ablation_table)}/3 inference conditions completed on {Path(ablation['experiment']).name}. "
+        ablation_text = state + ablation["caveat"] + "\n\n```csv\n" + ablation_table.to_csv(index=False, float_format="%.6f", lineterminator="\n") + "```"
+        ablation_html = "<p>" + html.escape(state + ablation["caveat"]) + "</p>" + ablation_table.to_html(index=False, border=0, float_format=lambda x: f"{x:.6f}")
     plt.rcParams.update({"font.size": 10, "figure.dpi": 140})
     fig, axes = plt.subplots(1, 2, figsize=(12, 4.7), layout="constrained")
     matrix = np.asarray(metric["confusion_matrix"])
+    errors = sorted([(int(matrix[i, j]), LABELS[i], LABELS[j]) for i in range(3) for j in range(3) if i != j and matrix[i, j]], reverse=True)
+    error_text = "; ".join(f"{truth} → {predicted}: {count}" for count, truth, predicted in errors)
     axes[0].imshow(matrix, cmap="Blues")
     display_labels = ["BENIGN", "JAILBREAK", "PROMPT\nINJECTION"]
     axes[0].set(xticks=range(3), yticks=range(3), xticklabels=display_labels, yticklabels=display_labels, xlabel="Predicted", ylabel="True", title="Validation confusion matrix")
@@ -61,7 +78,10 @@ def main():
     plt.close(fig)
     final_path = ROOT / "artifacts/final/submission_validation.json"
     final = json.loads(final_path.read_text(encoding="utf-8")) if final_path.exists() else None
+    final_status = "The final model was retrained on all 14,000 rows. Its hidden-test performance is unknown; reported validation scores belong to selection models." if final else "Final full-data retraining and submission generation have not completed yet."
     table_text = table.to_csv(index=False, float_format="%.6f", lineterminator="\n")
+    class_csv = classes.to_csv(index=False, float_format="%.6f", lineterminator="\n")
+    length_csv = lengths.to_csv(index=False, float_format="%.6f", lineterminator="\n")
     body = f"""# Actual experiment results
 
 Team: UEL / SGS / Lục Vị Hoàng Đế. Notebook: UEL_SGS_LucViHoangDe_C1.
@@ -73,17 +93,37 @@ The following numbers come from completed local training runs, not Kaggle leader
 
 ![Validation](validation.png)
 
-Selected by validation macro F1: **{best_name}**, **{metric['macro_f1']:.6f}**.
+Current best among completed runs by validation macro F1: **{best_name}**, **{metric['macro_f1']:.6f}**.
+
+Per-class precision, recall, F1 and support:
+
+```csv
+{class_csv}```
+
+Remaining validation confusions: {error_text}.
+
+Length diagnostics:
+
+```csv
+{length_csv}```
+
+Length-bucket F1 uses all three labels even when a small bucket has no examples of one label. It is a diagnostic, not an alternate competition metric.
+
+## Inference length/truncation ablation
+
+{ablation_text}
 
 Validation rows: {run['validation_rows']}. Train rows for selection: {run['train_rows']}. Approximate near duplicates are grouped before splitting. Per-language scores can be noisy for the rare class; small gains need a second seed/split check.
 
 Final submission validation: {json.dumps(final, ensure_ascii=False) if final else 'Not generated yet.'}
 
-Final-model performance is unknown: the full-data model has no held-out labels. Competition submissions made by this project: **0**. Full live Rules remain unverified due Kaggle access/rate limits; see [requirements evidence](../docs/competition.md).
+{final_status} Competition submissions made by this project: **0**.
+
+{rules_status} See [requirements evidence](../docs/competition.md).
 """
     (reports / "RESULTS.md").write_text(body, encoding="utf-8")
     image = base64.b64encode(chart.read_bytes()).decode()
-    html_body = f"""<!doctype html><html lang="vi"><meta charset="utf-8"><title>UEL SGS — Results</title><style>body{{font:16px system-ui,sans-serif;max-width:1100px;margin:40px auto;padding:0 24px;color:#17212b}}table{{border-collapse:collapse;width:100%;font-size:13px}}th,td{{padding:9px;border-bottom:1px solid #ddd;text-align:left}}img{{max-width:100%}}pre{{white-space:pre-wrap;background:#f3f6f8;padding:18px}}h1{{color:#175c73}}</style><h1>UEL_SGS_LucViHoangDe_C1</h1><p>Actual local validation results. These are not leaderboard scores.</p>{table.to_html(index=False,float_format=lambda x:f'{x:.6f}',border=0)}<img src="data:image/png;base64,{image}" alt="Validation confusion matrix and language metrics"><h2>Submission checks</h2><pre>{html.escape(json.dumps(final,ensure_ascii=False,indent=2)) if final else 'Not generated yet'}</pre><p>Macro F1 gives each class equal weight. Final model is retrained on all 14,000 rows; its hidden-test score is unknown. No Kaggle submission has been made. Live Rules could not be verified.</p></html>"""
+    html_body = f"""<!doctype html><html lang="vi"><meta charset="utf-8"><title>UEL SGS — Results</title><style>body{{font:16px system-ui,sans-serif;max-width:1100px;margin:40px auto;padding:0 24px;color:#17212b}}table{{border-collapse:collapse;width:100%;font-size:13px}}th,td{{padding:9px;border-bottom:1px solid #ddd;text-align:left}}img{{max-width:100%}}pre{{white-space:pre-wrap;background:#f3f6f8;padding:18px}}h1{{color:#175c73}}</style><h1>UEL_SGS_LucViHoangDe_C1</h1><p>Actual completed local validation runs. These are not leaderboard scores.</p>{table.to_html(index=False,float_format=lambda x:f'{x:.6f}',border=0)}<img src="data:image/png;base64,{image}" alt="Validation confusion matrix and language metrics"><h2>Per-class metrics</h2>{classes.to_html(index=False,border=0,float_format=lambda x:f'{x:.6f}')}<p>Remaining confusions: {html.escape(error_text)}</p><h2>Length diagnostics</h2>{lengths.to_html(index=False,border=0,float_format=lambda x:f'{x:.6f}')}<p>Bucket F1 includes all three labels; rare/absent labels can make small buckets unstable.</p><h2>Inference truncation ablation</h2>{ablation_html}<h2>Submission checks</h2><pre>{html.escape(json.dumps(final,ensure_ascii=False,indent=2)) if final else 'Not generated yet'}</pre><p>{html.escape(final_status)} No Kaggle submission has been made.</p><h2>Rules and publication</h2><p>{html.escape(rules_status)}</p></html>"""
     (reports / "results.html").write_text(html_body, encoding="utf-8")
     print(table.to_string(index=False))
     print(reports / "results.html")

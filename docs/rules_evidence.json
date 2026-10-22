@@ -1,0 +1,71 @@
+{
+  "retrieved_utc": "2026-10-22T03:59:36.532995+00:00",
+  "method": "Read-only official kagglesdk CompetitionApiService.GetCompetition and ListCompetitionPages via api.kaggle.com",
+  "competition": "rmit-hackathon-2026",
+  "deadline_utc": "2026-10-22T11:00:00+00:00",
+  "deadline_asia_saigon": "2026-10-22T18:00:00+07:00",
+  "max_daily_submissions": 6,
+  "overview_submission_attempts": 6,
+  "max_team_size": 4,
+  "metric": "Macro F1",
+  "data_license": "CC BY-NC-SA 4.0",
+  "sources": {
+    "data-description": {
+      "characters": 1334,
+      "sha256_utf8": "ad85fe36fa73383b7033c2d9f9bae9903160f11c09c77bb3211996ba741a481d"
+    },
+    "Description": {
+      "characters": 1132,
+      "sha256_utf8": "384ac18f607593e5174fc5da1958ce3392c13933786ca9c1b5d6b3d5834a3e36"
+    },
+    "Challenge": {
+      "characters": 3540,
+      "sha256_utf8": "397147f1a00bd2778c662720479e1a85e5edcac7589fcb52d62804aa04e9a7a4"
+    },
+    "rules": {
+      "characters": 37,
+      "sha256_utf8": "fd56a1f40c8a53233bde3ab41a1506659124be4d0a663e922ce74d8120a299c0"
+    },
+    "abstract": {
+      "characters": 2033,
+      "sha256_utf8": "2c6ff7a0dbea5a898919b82d261d86801536136b178d908d7696d4d49ac0e854"
+    },
+    "foundational-rules": {
+      "characters": 23654,
+      "sha256_utf8": "3106b398b76d8ec4d92708b5fc55afd96524774e6f28718437f025ab22e0a6f4"
+    },
+    "Evaluation": {
+      "characters": 995,
+      "sha256_utf8": "89f618839f36e5e2fd544f3f254461425f94e00008d0d628b7567715f02c844b"
+    }
+  },
+  "raw_source_files_kept_local": true,
+  "public_code_sharing_rule": "Foundational Rules 6(b): public competition code must also be shared in the competition Kaggle forum or notebooks and use an OSI-approved license without commercial-use restrictions.",
+  "kaggle_code_publication_status": "Pending user authorization; GitHub repository verified public. No Kaggle post or notebook publication made by this project.",
+  "official_faq": {
+    "url": "https://www.kaggle.com/competitions/rmit-hackathon-2026/discussion/748423",
+    "content_sha256_utf8": "ef8c1c42bfbfeb8d1a99fc1abed200a2f8fa79e9cc8d04b32b76fb0c51c9ecb5",
+    "notebook_sharing_note": "FAQ requests specific-person or Group sharing; organizer reviewer identities are not provided in the retrieved text."
+  },
+  "discussion_questions_read": [
+    {
+      "id": 751573,
+      "title": "Is local / external GPU training allowed for Challenge 1?",
+      "url": "https://www.kaggle.com/competitions/rmit-hackathon-2026/discussion/751573",
+      "answers_retrieved": false
+    },
+    {
+      "id": 751570,
+      "title": "External data for training",
+      "url": "https://www.kaggle.com/competitions/rmit-hackathon-2026/discussion/751570",
+      "answers_retrieved": false
+    },
+    {
+      "id": 751566,
+      "title": "Clarification: one fine-tuned model vs. combining models, and how notebooks are verified?",
+      "url": "https://www.kaggle.com/competitions/rmit-hackathon-2026/discussion/751566",
+      "answers_retrieved": false
+    }
+  ],
+  "discussion_answer_access": "Read-only comment API returned empty responses; browser was rate-limited. Do not infer organizer permission from question titles."
+}

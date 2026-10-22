@@ -19,7 +19,8 @@ artifacts/**/tokenized/
 artifacts/**/test_logits.npy
 artifacts/**/validation_logits.npy
 artifacts/**/train_history.tmp
-artifacts/sources/*.html
+artifacts/sources/
+docs/LICENSE_MIT_DRAFT.txt
 .test_tmp/
 artifacts/audit/
 artifacts/**/validation_predictions.csv

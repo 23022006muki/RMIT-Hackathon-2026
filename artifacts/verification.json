@@ -1,15 +1,16 @@
 {
   "tests": {
     "command": "python -m unittest discover -s tests -v",
-    "tests_run": 5,
-    "result": "OK (CPU); synthetic GPU smoke previously passed",
+    "tests_run": 6,
+    "result": "OK (CPU), including notebook source/model/data-payload gate",
     "scope": "Macro F1 label averaging, group leakage prevention, strict CSV ID/schema checks, synthetic training/checkpoint/tokenization smoke test. Synthetic metrics are not competition results."
   },
   "notebook": {
     "schema": "nbformat.validate passed",
     "python_cells": "All cells compile",
     "executed_on_kaggle": false,
-    "embeds_competition_data": false
+    "embeds_competition_data": false,
+    "source_payload_gate": "Checks selected approved backbone, exact embedded source/config equality, absence of competition data payload, schema, syntax and title"
   },
   "local_environment": {
     "python": "3.13.7",
@@ -23,5 +24,6 @@
     "commit": "fb32c65d5697550de7e591ec10be5c7e6a1798fe",
     "conclusion": "success",
     "url": "https://github.com/23022006muki/RMIT-Hackathon-2026/actions/runs/39717392248"
-  }
+  },
+  "rules_verification": "Official Kaggle GetCompetition/ListCompetitionPages succeeded on 2026-10-22; public-code posting/license authorization and local-GPU clarification remain pending."
 }

@@ -54,7 +54,7 @@ Model pretrained từ Kaggle: {manifest['pretrained_model_cache']}
 
 ZIP chứa mã, notebook, báo cáo và dự đoán; các trọng số lớn và dữ liệu gốc vẫn nằm trong các thư mục trên. Kết quả validation thuộc model chọn cấu hình; model cuối huấn luyện trên toàn bộ train nên chưa có điểm test ẩn.
 
-Quy định Rules trực tiếp chưa xác minh được do Kaggle giới hạn truy cập. Đọc Rules/Discussion trước khi nộp. Không tự động submit hoặc sử dụng lượt nộp.
+Rules đã được đọc qua API Kaggle ngày 22/10/2026. Hạn nộp đã xác minh: 18:00 ngày 22/10/2026, giờ Việt Nam. Kiểm tra trạng thái chia sẻ mã trên Kaggle và giấy phép trong docs/competition.md; đọc cập nhật Rules/Discussion trước khi nộp. Không tự động submit hoặc sử dụng lượt nộp.
 """
     (output / "START_HERE.md").write_text(notes, encoding="utf-8")
     tracked = subprocess.check_output(["git", "ls-files", "-z"], cwd=ROOT).decode().split("\0")
