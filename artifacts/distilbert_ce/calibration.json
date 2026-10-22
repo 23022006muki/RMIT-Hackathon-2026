@@ -1,0 +1,20 @@
+{
+  "selected_bias": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "candidate_bias": [
+    0.0,
+    0.5,
+    -0.5
+  ],
+  "tuning_macro_f1_baseline": 0.9014679152837047,
+  "tuning_macro_f1_candidate": 0.9066290342101716,
+  "assessment_macro_f1_baseline": 0.9155566405495277,
+  "assessment_macro_f1_candidate": 0.909276602405491,
+  "accepted": false,
+  "tuning_rows": 1400,
+  "assessment_rows": 1400,
+  "caveat": "Assessment half was held out from bias tuning, but was previously used in checkpoint selection. Confirm improvements on a second split/seed before relying on small changes. No per-language threshold fitting or test labels used."
+}

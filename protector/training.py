@@ -38,6 +38,7 @@ class TrainConfig:
     gradient_checkpointing: bool = False
     patience: int = 2
     num_threads: int = 4
+    optimizer_foreach: bool | None = None
 
     def __post_init__(self):
         if self.model_id not in ENCODERS:
@@ -150,7 +151,7 @@ def run_training(config, model_path, train_frame, validation_frame, output, prov
     weights = (len(train_frame) / (3.0 * counts)) ** config.weight_power
     weights /= weights.mean()
     class_weights = torch.tensor(weights, dtype=torch.float32, device=device)
-    optimizer = torch.optim.AdamW(model.parameters(), lr=config.learning_rate, weight_decay=config.weight_decay)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=config.learning_rate, weight_decay=config.weight_decay, foreach=config.optimizer_foreach)
     updates_per_epoch = math.ceil(len(train_loader) / config.accumulation_steps)
     total_updates = updates_per_epoch * config.epochs
     scheduler = get_linear_schedule_with_warmup(optimizer, int(total_updates * config.warmup_ratio), total_updates)

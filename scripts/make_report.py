@@ -24,6 +24,8 @@ def main():
     for path in sorted((ROOT / "artifacts").glob("*/metrics.json")):
         metric = json.loads(path.read_text(encoding="utf-8"))
         run = json.loads((path.parent / "run.json").read_text(encoding="utf-8"))
+        if "total_seconds" not in run:
+            continue
         row = {"run": path.parent.name, "model": run["config"]["model_id"], "macro_f1": metric["macro_f1"]}
         for label in LABELS:
             row[label] = metric["class_report"][label]["f1-score"]

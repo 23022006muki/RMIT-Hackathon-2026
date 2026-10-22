@@ -11,6 +11,16 @@ from protector.metrics import score
 
 
 class InvariantTests(unittest.TestCase):
+    def test_near_duplicates_are_verified_without_exact_match(self):
+        words = [f"token{i}" for i in range(100)]
+        changed = words.copy()
+        changed[-1] = "different"
+        frame = pd.DataFrame({"id": ["a", "b"], "text": [" ".join(words), " ".join(changed)]})
+        groups, pairs = duplicate_groups(frame)
+        self.assertEqual(groups[0], groups[1])
+        self.assertTrue((pairs.method == "shingle_jaccard").any())
+        self.assertTrue((pairs.similarity >= .90).all())
+
     def test_macro_f1_counts_absent_prediction_classes(self):
         frame = pd.DataFrame({"label": LABELS, "language": ["pt"] * 3, "text": ["a", "b", "c"]})
         metric, _ = score(frame, np.array([[5, 0, 0]] * 3))

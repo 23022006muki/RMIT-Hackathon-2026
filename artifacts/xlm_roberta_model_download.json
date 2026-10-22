@@ -1,0 +1,84 @@
+{
+  "model_id": "FacebookAI/xlm-roberta-base",
+  "kaggle_handle_requested": "aisuko/xlm-roberta-base/transformers/default",
+  "resolved_model_path": "D:\\RMIT Hackathon 2026\\cache\\kagglehub\\models\\aisuko\\xlm-roberta-base\\transformers\\default\\1",
+  "source_url": "https://www.kaggle.com/models/aisuko/xlm-roberta-base/transformers/default",
+  "files": {
+    ".gitattributes": {
+      "bytes": 445,
+      "sha256": "98c91dabef4df27b2fc7c8454d220aba47476f73593cbd034d961fe4927304c1"
+    },
+    "config.json": {
+      "bytes": 615,
+      "sha256": "d66ed8cd4f2a93b358c245e50736fa389ed4f35c0bae7aad0b32abb20c62b579"
+    },
+    "model.safetensors": {
+      "bytes": 1115567652,
+      "sha256": "6fd4797bc397c3b8b55d6bb5740366b57e6a3ce91c04c77f22aafc0c128e6feb"
+    },
+    "pytorch_model.bin": {
+      "bytes": 1115590446,
+      "sha256": "9d83baaafea92d36de26002c8135a427d55ee6fdc4faaa6e400be4c47724a07e"
+    },
+    "README.md": {
+      "bytes": 5238,
+      "sha256": "bec9f2cd81f7396a64ee474145117d81139906443a21480cbe4993c97cb499aa"
+    },
+    "sentencepiece.bpe.model": {
+      "bytes": 5069051,
+      "sha256": "cfc8146abe2a0488e9e2a0c56de7952f7c11ab059eca145a0a727afce0db2865"
+    },
+    "tokenizer.json": {
+      "bytes": 9096718,
+      "sha256": "a898ea75433890f6610f4e470b8ebeb0c21dce5c8dd61f892eb09eb5919d2e2c"
+    },
+    "tokenizer_config.json": {
+      "bytes": 25,
+      "sha256": "994f46754c5bf4014f1aa92d34b1374319c3a6b3f702105cd5b742beaecd18ce"
+    },
+    ".cache\\huggingface\\.gitignore": {
+      "bytes": 1,
+      "sha256": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1"
+    },
+    ".cache\\huggingface\\CACHEDIR.TAG": {
+      "bytes": 191,
+      "sha256": "f6572428f6d5e1575e73a1502895a8731f10757dfbb634909c6e154b849af91d"
+    },
+    ".cache\\huggingface\\download\\.gitattributes.metadata": {
+      "bytes": 101,
+      "sha256": "bfb7f54afd5ed708a178321908af0a1372886b57f68ef8a5e12575af04942bd8"
+    },
+    ".cache\\huggingface\\download\\config.json.metadata": {
+      "bytes": 101,
+      "sha256": "e9440369bf930063e98ff928b5b2e2d61648bfad13fc764a024cd1e133260497"
+    },
+    ".cache\\huggingface\\download\\model.safetensors.metadata": {
+      "bytes": 124,
+      "sha256": "681c3f2cce7c01ccdaf48dcf016f54210ea5ceb2ad970e05639dbd5f3750eb93"
+    },
+    ".cache\\huggingface\\download\\pytorch_model.bin.metadata": {
+      "bytes": 125,
+      "sha256": "340b55bd0da0eb547c311992533cdab79581d75ec5ef476909124b42e44caa48"
+    },
+    ".cache\\huggingface\\download\\README.md.metadata": {
+      "bytes": 101,
+      "sha256": "acff107a25471ade9709ca6adfdec1be62cfa31cff0f0bee223c097f1a831237"
+    },
+    ".cache\\huggingface\\download\\sentencepiece.bpe.model.metadata": {
+      "bytes": 101,
+      "sha256": "e36e36ea73f248e28cde924bbb68e504bec3b8251334b7aa76084956958ed68c"
+    },
+    ".cache\\huggingface\\download\\tokenizer.json.metadata": {
+      "bytes": 101,
+      "sha256": "ed326b4ecb49cd870daa6032ad6c784bcd334c39a97af0b89be72e42750902df"
+    },
+    ".cache\\huggingface\\download\\tokenizer_config.json.metadata": {
+      "bytes": 101,
+      "sha256": "98150966b49dd34c1f43e445901d9e4350485021b6610b07603549513f333e39"
+    },
+    ".cache\\huggingface\\trees\\e73636d4f797dec63c3081bb6ed5c7b0bb3f2089.json": {
+      "bytes": 2168,
+      "sha256": "a973f1173bd475f983ffda25783533188751d8fd889f2f1dc3f2e2ade5ffb2ec"
+    }
+  }
+}

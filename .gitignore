@@ -24,3 +24,4 @@ artifacts/sources/*.html
 artifacts/audit/
 artifacts/**/validation_predictions.csv
 artifacts/**/submission.csv
+artifacts/*.log
