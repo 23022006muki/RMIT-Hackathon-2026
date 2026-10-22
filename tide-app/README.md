@@ -1,8 +1,14 @@
 # Signal Commons — RMIT Hackathon 2026, Challenges 1 × 2
 
-Signal Commons is a multilingual AI safety research commons. A contributor submits an English, Portuguese, French or Italian prompt. The single Kaggle-trained Challenge 1 model classifies it as `BENIGN`, `JAILBREAK` or `PROMPT_INJECTION`. TideCloak then self-encrypts the original in the contributor's browser; the app stores ciphertext and classification metadata. Researchers can see aggregate patterns without receiving a central archive of raw prompts. A contributor can retrieve and decrypt their own original.
+Signal Commons lets researchers share multilingual AI safety signals while contributors retain control of their original prompts through TideCloak.
 
-The trust constraint is enforced by TideCloak identity, role-gated encryption and server verification of access tokens. The app server cannot decrypt stored ciphertext by itself. The classifier does receive plaintext transiently during inference, so this prototype protects **stored** originals, not end-to-end privacy from the classifier service. TideCloak matters because a normal app administrator should not be the sole key holder for contributed research material. This is a working path through classification, sealing, aggregate statistics and owner retrieval, rather than a mock dashboard.
+## Project Overview
+
+- **Vision & originality:** A contributor submits a prompt in Portuguese, French, Italian or English. The single Kaggle-trained Challenge 1 model labels it `BENIGN`, `JAILBREAK` or `PROMPT_INJECTION`; the same app turns the result into a private, shareable research signal.
+- **Trust constraint insight:** A central archive of raw adversarial prompts gives its operator unilateral custody of sensitive submissions. Signal Commons stores encrypted originals and publishes only label and language counts.
+- **Value & impact:** Researchers can spot cross-language attack patterns. Contributors can retrieve their own original and withdraw their contribution from the commons.
+- **Why TideCloak matters:** TideCloak verifies identity and encrypts the original in the contributor's browser. The server checks the Tide access token for each private API action and cannot decrypt the stored ciphertext by itself.
+- **Prototype & storytelling:** Sign in, classify a fresh prompt with the Kaggle checkpoint, encrypt and save it, inspect aggregate counts, decrypt as the owner, show an unauthenticated API denial, then withdraw it. The classifier sees plaintext transiently for inference; this prototype protects stored originals, not inference-time text. Withdrawal removes the app's copy and aggregate entry; it is not cryptographic key revocation.
 
 ## Run locally
 
@@ -33,6 +39,7 @@ Use the actual downloaded checkpoint directory; the example name may differ. The
 | `POST /api/cases` | Verified Tide token + receipt | Stores ciphertext and metadata in `.data/cases.json`. |
 | `GET /api/cases` | Verified Tide token | Returns only the caller's metadata. |
 | `GET /api/cases/:id` | Verified owner token | Returns the owner's ciphertext for browser decryption. |
+| `DELETE /api/cases/:id` | Verified owner token | Removes the contribution and its aggregate count; later reads return 404. |
 | `GET /api/stats` | Public | Returns aggregate counts only. |
 
 The JSON store is a local prototype backend. A local signing key is generated in `.data/receipt.key` so classification receipts remain valid across API routes and restarts. Use `RECEIPT_SIGNING_KEY` (at least 32 random bytes encoded as hex) plus a transactional database and durable single-use receipt ledger before running multiple server replicas. No prompt, token or model checkpoint is intended for Git. `.data`, `.env.local` and `node_modules` are ignored.

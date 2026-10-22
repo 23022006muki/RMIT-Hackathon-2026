@@ -48,6 +48,22 @@ export async function getOwnedCase(id: string, owner: string): Promise<StoredCas
   return (await readCases()).find(item => item.id === id && item.owner === owner) ?? null
 }
 
+export async function withdrawOwnedCase(id: string, owner: string): Promise<boolean> {
+  let withdrawn = false
+  writes = writes.then(async () => {
+    const all = await readCases()
+    const remaining = all.filter(item => item.id !== id || item.owner !== owner)
+    if (remaining.length === all.length) return
+    await mkdir(path.dirname(databasePath), { recursive: true })
+    const pendingPath = `${databasePath}.${randomUUID()}.tmp`
+    await writeFile(pendingPath, JSON.stringify(remaining, null, 2), 'utf8')
+    await rename(pendingPath, databasePath)
+    withdrawn = true
+  })
+  try { await writes } catch (error) { writes = Promise.resolve(); throw error }
+  return withdrawn
+}
+
 export async function getCounts() {
   const all = await readCases()
   const byLabel = { BENIGN: 0, JAILBREAK: 0, PROMPT_INJECTION: 0 }

@@ -22,6 +22,7 @@ export default function HomePage() {
   const [language, setLanguage] = useState<Language>('en')
   const [busy, setBusy] = useState(false)
   const [revealBusy, setRevealBusy] = useState<string | null>(null)
+  const [withdrawBusy, setWithdrawBusy] = useState<string | null>(null)
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
   const [classification, setClassification] = useState<Classification | null>(null)
@@ -114,6 +115,30 @@ export default function HomePage() {
     }
   }
 
+  async function withdraw(id: string) {
+    if (!window.confirm('Withdraw this contribution? Its ciphertext and classification will be removed from this research commons.')) return
+    setError('')
+    setWithdrawBusy(id)
+    try {
+      const token = await getToken()
+      if (!token) throw new Error('Please sign in again.')
+      const response = await fetch(`/api/cases/${encodeURIComponent(id)}`, {
+        method: 'DELETE', headers: { Authorization: `Bearer ${token}` },
+      })
+      if (!response.ok) {
+        const data = await responseBody(response)
+        throw new Error(String(data.error || 'Could not withdraw contribution.'))
+      }
+      setRevealed(previous => { const next = { ...previous }; delete next[id]; return next })
+      setMessage('Contribution withdrawn from the research commons.')
+      await Promise.all([loadCases(), loadStats()])
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : 'Withdrawal failed.')
+    } finally {
+      setWithdrawBusy(null)
+    }
+  }
+
   if (isInitializing || !authenticated) return <main className="workspace"><p>Checking Tide identity…</p></main>
   const name = String(getValueFromIdToken('preferred_username') || 'Contributor')
 
@@ -134,7 +159,7 @@ export default function HomePage() {
           <section className="card" style={{ marginTop: 22 }}><span className="overline">COMMUNITY VIEW</span><h2>Patterns, not raw text</h2><div className="stats-compact"><div><b>{stats?.total ?? '—'}</b><span>SEALED PROMPTS</span></div><div><b>{stats?.byLabel.JAILBREAK ?? '—'}</b><span>JAILBREAK SIGNALS</span></div><div><b>{stats?.byLabel.PROMPT_INJECTION ?? '—'}</b><span>INJECTION SIGNALS</span></div></div></section></div>
       </div>
       <section className="card" style={{ marginTop: 22 }}><span className="overline">02 / YOUR CONTRIBUTIONS</span><h2>Revisit the originals you own</h2><p>Only your own cases appear here. The server returns ciphertext after checking your Tide token; decryption happens in this browser.</p>
-        <div className="case-list">{cases.length === 0 ? <p>No contributions yet.</p> : cases.map(entry => <article className="case-item" key={entry.id}><strong>{entry.label.replace('_', ' ')} <span className="pill">{entry.language.toUpperCase()}</span></strong><small>{new Date(entry.createdAt).toLocaleString()} · {entry.modelId}</small><div><button className="quiet-button" disabled={revealBusy === entry.id} onClick={() => void reveal(entry.id)}>{revealed[entry.id] ? 'Hide original' : revealBusy === entry.id ? 'Decrypting…' : 'Decrypt my original'}</button></div>{revealed[entry.id] && <div className="revealed">{revealed[entry.id]}</div>}</article>)}</div>
+        <div className="case-list">{cases.length === 0 ? <p>No contributions yet.</p> : cases.map(entry => <article className="case-item" key={entry.id}><strong>{entry.label.replace('_', ' ')} <span className="pill">{entry.language.toUpperCase()}</span></strong><small>{new Date(entry.createdAt).toLocaleString()} · {entry.modelId}</small><div className="case-actions"><button className="quiet-button" disabled={revealBusy === entry.id || withdrawBusy === entry.id} onClick={() => void reveal(entry.id)}>{revealed[entry.id] ? 'Hide original' : revealBusy === entry.id ? 'Decrypting…' : 'Decrypt my original'}</button><button className="quiet-button danger-button" disabled={withdrawBusy === entry.id} onClick={() => void withdraw(entry.id)}>{withdrawBusy === entry.id ? 'Withdrawing…' : 'Withdraw contribution'}</button></div>{revealed[entry.id] && <div className="revealed">{revealed[entry.id]}</div>}</article>)}</div>
       </section>
     </div>
   </main>
