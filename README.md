@@ -1,4 +1,10 @@
-# RMIT Hackathon 2026 — Multilingual Protector
+# Signal Commons — RMIT Hackathon 2026, Challenges 1 × 2
+
+Signal Commons is a multilingual AI safety research commons. The Challenge 1 entry trains **one approved XLM-RoBERTa model on Kaggle** to distinguish benign prompts, jailbreaks and prompt injections in Portuguese, French, Italian and English. The Challenge 2 app applies that same Kaggle-trained checkpoint to a contributor's prompt, then uses TideCloak to self-encrypt the original in the browser. The server stores ciphertext and classification metadata; the public sees aggregate patterns, while each contributor can retrieve and decrypt their own text.
+
+The trust constraint is that an app administrator cannot simply open the stored originals. TideCloak identity, role checks and distributed key operations govern access. The classifier necessarily sees plaintext during inference, so the prototype protects the stored research archive rather than hiding prompts from the classifier. This creates a shared view of multilingual attack patterns without centralizing the underlying examples. [Explore the working app and setup](tide-app/README.md).
+
+## Challenge 1 — Multilingual Protector
 
 **UEL · SGS · Lục Vị Hoàng Đế** — notebook **UEL_SGS_LucViHoangDe_C1**.
 

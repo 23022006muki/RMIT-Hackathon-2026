@@ -1,0 +1,8 @@
+node_modules/
+.tools/
+.next/
+.data/
+.env.local
+.env.*.local
+*.tsbuildinfo
+init/.realm_name
